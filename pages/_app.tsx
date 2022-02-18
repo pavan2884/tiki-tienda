@@ -1,9 +1,25 @@
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { WalletDialogProvider } from "@solana/wallet-adapter-material-ui";
+import {
+  ConnectionProvider,
+  WalletProvider
+} from "@solana/wallet-adapter-react";
+import {
+  LedgerWalletAdapter,
+  PhantomWalletAdapter,
+  SlopeWalletAdapter,
+  SolflareWalletAdapter,
+  SolletExtensionWalletAdapter,
+  SolletWalletAdapter,
+  TorusWalletAdapter
+} from "@solana/wallet-adapter-wallets";
+import { clusterApiUrl } from "@solana/web3.js";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import * as React from "react";
+import { useMemo } from "react";
 import createEmotionCache from "../src/createEmotionCache";
 import theme from "../src/theme";
 
@@ -16,6 +32,28 @@ interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
+  const network = WalletAdapterNetwork.Devnet;
+
+  // const endpoint = useMemo(() => network, []);
+  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+
+  // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
+  // Only the wallets you configure here will be compiled into your application, and only the dependencies
+  // of wallets that your users connect to will be loaded.
+  const wallets = useMemo(
+    () => [
+      new PhantomWalletAdapter(),
+      new SlopeWalletAdapter(),
+      new SolflareWalletAdapter({ network }),
+      new TorusWalletAdapter(),
+      new LedgerWalletAdapter(),
+      new SolletWalletAdapter({ network }),
+      new SolletExtensionWalletAdapter({ network }),
+    ],
+    [network]
+  );
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -24,17 +62,14 @@ export default function MyApp(props: MyAppProps) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <ConnectionProvider endpoint={endpoint}>
+          <WalletProvider wallets={wallets} autoConnect>
+            <WalletDialogProvider>
+              <Component {...pageProps} />
+            </WalletDialogProvider>
+          </WalletProvider>
+        </ConnectionProvider>
       </ThemeProvider>
     </CacheProvider>
   );
 }
-
-// import '../styles/globals.css'
-// import type { AppProps } from 'next/app'
-
-// function MyApp({ Component, pageProps }: AppProps) {
-//   return <Component {...pageProps} />
-// }
-
-// export default MyApp
