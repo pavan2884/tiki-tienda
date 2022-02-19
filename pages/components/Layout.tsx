@@ -6,6 +6,9 @@ import Hut from "./Hut";
 import Gold from "./Gold";
 import HoneyPot from "./HoneyPot";
 
+// For testing, disable for production
+const border = "2px dashed green";
+
 export default function Layout() {
   return (
     <Box
@@ -13,6 +16,7 @@ export default function Layout() {
         height: "100%",
         display: "grid",
         gap: 1,
+        gridTemplateColumns: 'repeat(5, 1fr)',
         gridTemplateRows: "auto",
         gridTemplateAreas: `"banner banner offers offers offers"
                               "banner banner offers offers offers"
@@ -21,11 +25,11 @@ export default function Layout() {
                               "hut gold gold honeypot honeypot"`,
       }}
     >
-      <Box sx={{ gridArea: "banner" }}><InfoSign /></Box>
-      <Box sx={{ gridArea: "offers" }}><Offers /></Box>
-      <Box sx={{ gridArea: "hut" }}><Hut /></Box>
-      <Box sx={{ gridArea: "gold" }}><Gold /></Box>
-      <Box sx={{ gridArea: "honeypot" }}><HoneyPot /></Box>
+      <Box sx={{ gridArea: "banner", border}}><InfoSign /></Box>
+      <Box sx={{ gridArea: "offers", border}}><Offers /></Box>
+      <Box sx={{ gridArea: "hut", border}}><Hut /></Box>
+      <Box sx={{ gridArea: "gold", border}}><Gold /></Box>
+      <Box sx={{ gridArea: "honeypot", border}}><HoneyPot /></Box>
     </Box>
   );
 }

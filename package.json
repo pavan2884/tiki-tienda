@@ -18,9 +18,11 @@
         "@solana/wallet-adapter-material-ui": "^0.16.4",
         "@solana/wallet-adapter-wallets": "^0.15.4",
         "@solana/web3.js": "^1.34.0",
+        "axios": "^0.26.0",
         "next": "latest",
         "react": "latest",
-        "react-dom": "latest"
+        "react-dom": "latest",
+        "swr": "^1.2.2"
     },
     "devDependencies": {
         "@types/node": "latest",
