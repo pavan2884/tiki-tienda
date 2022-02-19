@@ -7,7 +7,8 @@ import Gold from "./Gold";
 import HoneyPot from "./HoneyPot";
 
 // For testing, disable for production
-const border = "2px dashed green";
+// const border = "2px dashed green";
+const border = "";
 
 export default function Layout() {
   return (

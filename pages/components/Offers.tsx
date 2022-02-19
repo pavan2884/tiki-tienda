@@ -32,12 +32,28 @@ function useOffers() {
     isError: error,
   };
 }
+
 export default function Offers() {
   const { data } = useOffers();
   console.log("offers", data);
   return (
-    <Box sx={{ height: "100%"}}>
-      <Typography gutterBottom color="green" variant="h3" component="h2">
+    <Box sx={{ height: "100%", m: 4 }}>
+      <Typography
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          backgroundImage: "url(/assets/featured-offers-title.png)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100% 100%",
+          m: 4,
+        }}
+        gutterBottom
+        color="#79D277"
+        variant="h3"
+        component="h2"
+        align="center"
+      >
         FEATURED OFFERS
       </Typography>
       <Grid container spacing={4}>
@@ -53,18 +69,10 @@ export default function Offers() {
               <Typography gutterBottom variant="h5" component="h2">
                 {name}
               </Typography>
-              <CardMedia
-                component="img"
-                image={image}
-                alt="random"
-              />
+              <CardMedia component="img" image={image} alt="random" />
               <CardContent sx={{ flexGrow: 1 }}>
-                <Typography>
-                  Remaining: {remaining}
-                </Typography>
-                <Typography>
-                  Cost: {cost}
-                </Typography>
+                <Typography>Remaining: {remaining}</Typography>
+                <Typography>Cost: {cost}</Typography>
               </CardContent>
               <CardActions>
                 <Button size="small">Get One!</Button>

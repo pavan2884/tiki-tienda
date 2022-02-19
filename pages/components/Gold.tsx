@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 
-export default function Banner() {
+export default function Gold() {
   return (
-    <Box sx={{ height: "100%", bgcolor: "primary.dark" }}>banner</Box>
+    <Box sx={{ height: "100%" }}>Gold</Box>
   );
 }
