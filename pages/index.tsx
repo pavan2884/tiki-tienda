@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import type { NextPage } from "next";
-import GridTemplateAreas from "./components/GridTemplateAreas";
+import Layout from "./components/Layout";
 
 
 const ContainerWrapper = styled(Container)`
@@ -14,8 +14,8 @@ const ContainerWrapper = styled(Container)`
 
 const Home: NextPage = () => {
   return (
-    <ContainerWrapper maxWidth="xl" disableGutters>
-      <GridTemplateAreas />
+    <ContainerWrapper maxWidth={false} disableGutters>
+      <Layout />
     </ContainerWrapper>
   );
 };
