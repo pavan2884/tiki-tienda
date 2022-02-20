@@ -1,6 +1,4 @@
-import {
-  PublicKey
-} from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import axios from "axios";
 
 type Offer = {
@@ -19,5 +17,5 @@ const completeSale = (publicKey: PublicKey, signature: string) =>
   axios.get<Data>(url).then((res) => res.data);
 
 exports = {
-  completeSale
-}
+  completeSale,
+};

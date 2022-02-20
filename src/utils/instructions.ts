@@ -1,13 +1,9 @@
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   Token,
-  TOKEN_PROGRAM_ID
+  TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
-import {
-  LAMPORTS_PER_SOL,
-  PublicKey,
-  SystemProgram
-} from "@solana/web3.js";
+import { LAMPORTS_PER_SOL, PublicKey, SystemProgram } from "@solana/web3.js";
 
 const getAssociatedTokenAddress = async (
   mint: PublicKey,
@@ -50,18 +46,22 @@ const tixTransferInstruction = (
 const loadWallets = () => {
   const storeWalletAddress = process.env.NEXT_PUBLIC_STORE_WALLET_ADDRESS;
   const tixMintAddress = process.env.NEXT_PUBLIC_TIX_MINT_ADDRESS;
-  if (!storeWalletAddress) throw new Error("Environment not set propertly, missing store wallet address");
-  if (!tixMintAddress) throw new Error("Environment not set propertly, missing tix mint address");
+  if (!storeWalletAddress)
+    throw new Error(
+      "Environment not set propertly, missing store wallet address"
+    );
+  if (!tixMintAddress)
+    throw new Error("Environment not set propertly, missing tix mint address");
 
   const storeWallet = new PublicKey(storeWalletAddress);
   const tixMint = new PublicKey(tixMintAddress);
 
-  return { storeWallet, tixMint }
-}
+  return { storeWallet, tixMint };
+};
 
 export {
   getAssociatedTokenAddress,
   solTransferInstruction,
   tixTransferInstruction,
-  loadWallets
+  loadWallets,
 };

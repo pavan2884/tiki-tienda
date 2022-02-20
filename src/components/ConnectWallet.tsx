@@ -4,7 +4,6 @@ import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import Image from "next/image";
 import ConnectSignImage from "../../public/assets/connect-wallet-wood.png";
 
-
 const ConnectWallet = () => {
   const { setOpen } = useWalletDialog();
   const wallet = useAnchorWallet();

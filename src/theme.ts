@@ -1,4 +1,4 @@
-import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 const theme = createTheme({
   breakpoints: {
@@ -11,13 +11,13 @@ const theme = createTheme({
     },
   },
   palette: {
-    mode: "dark"
+    mode: "dark",
   },
   typography: {
-    fontFamily: '"Beach Hits", Raleway, Arial'
+    fontFamily: '"Beach Hits", Raleway, Arial',
   },
   shape: {
-    borderRadius: 3
+    borderRadius: 3,
   },
   components: {
     MuiCssBaseline: {
@@ -37,10 +37,10 @@ const theme = createTheme({
     MuiBackdrop: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgb(0, 0, 0, 0.9)'
-        }
-      }
-    }
+          backgroundColor: "rgb(0, 0, 0, 0.9)",
+        },
+      },
+    },
   },
 });
 
