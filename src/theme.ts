@@ -25,9 +25,8 @@ const theme = createTheme({
         @font-face {
           font-family: "Beach Hits";
           src: local("Beach Hits"),
-            url(./assets/fonts/Beach-Hits.woff2) format("woff2"),
-            url(./assets/fonts/Beach-Hits.woff) format("woff"),
-            url(./assets/fonts/Beach-Hits.ttf) format("truetype");
+            url(./fonts/Beach-Hits.ttf) format("truetype"),
+            url(./fonts/Tiki-Tropic.ttf) format("truetype");
         }
         body {
           background-color: #FFAF70;
