@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="MuiContainer-root MuiContainer-disableGutters css-utuah6-MuiContainer-root"
+  >
+    <div
+      class="MuiBox-root css-1rp4wzv"
+    />
+  </div>
+</div>
+`;
