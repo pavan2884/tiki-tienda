@@ -5,6 +5,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  CardHeader,
   Grid,
   Typography,
 } from "@mui/material";
@@ -21,7 +22,7 @@ type Offer = {
 type Data = {
   offers: Offer[];
 };
-// const fetcher = (...args) => fetch(...args).then(res => res.json())
+
 const fetcher = (url: string) => axios.get<Data>(url).then((res) => res.data);
 
 function useOffers() {
@@ -66,9 +67,7 @@ export default function Offers() {
                 flexDirection: "column",
               }}
             >
-              <Typography gutterBottom variant="h5" component="h2">
-                {name}
-              </Typography>
+              <CardHeader title={name} />
               <CardMedia component="img" image={image} alt="random" />
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography>Remaining: {remaining}</Typography>

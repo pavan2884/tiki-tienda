@@ -1,4 +1,5 @@
 import { Box, Stack, Button } from "@mui/material";
+import GetOne from "./GetOne";
 
 export default function HoneyPot() {
   return (
@@ -6,7 +7,7 @@ export default function HoneyPot() {
       <Stack spacing={2}>
         <Button variant="contained">Turnt Up Honeypot</Button>
         <Button variant="contained">Cost: 15</Button>
-        <Button variant="contained">Get One!</Button>
+        <GetOne />
       </Stack>
     </Box>
   );

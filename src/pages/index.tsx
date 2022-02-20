@@ -2,8 +2,8 @@ import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import type { NextPage } from "next";
-import ConnectWallet from "./components/ConnectWallet";
-import Layout from "./components/Layout";
+import ConnectWallet from "../components/ConnectWallet";
+import Layout from "../components/Layout";
 
 const ContainerWrapper = styled(Container)`
   background-image: url(/assets/background.png);

@@ -20,8 +20,8 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useMemo } from "react";
-import createEmotionCache from "../src/createEmotionCache";
-import theme from "../src/theme";
+import createEmotionCache from "../createEmotionCache";
+import theme from "../theme";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
