@@ -9,13 +9,13 @@ import {
   tixTransferInstruction,
 } from "../utils/instructions";
 
-export default function GetOne() {
+export default function GetOne({ wallet }: { wallet: string }) {
   const { connection } = useConnection();
   const { publicKey: userWallet, sendTransaction } = useWallet();
 
   const handleClick = async () => {
     if (!userWallet) throw new WalletNotConnectedError();
-    const { storeWallet, tixMint } = loadWallets();
+    const { storeWallet, tixMint } = loadWallets(wallet);
     const storeTixAccount = await getAssociatedTokenAddress(
       tixMint,
       storeWallet

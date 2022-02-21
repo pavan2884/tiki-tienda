@@ -43,13 +43,9 @@ const tixTransferInstruction = (
   );
 };
 
-const loadWallets = () => {
-  const storeWalletAddress = process.env.NEXT_PUBLIC_STORE_WALLET_ADDRESS;
+const loadWallets = (wallet: string) => {
+  const storeWalletAddress = wallet;
   const tixMintAddress = process.env.NEXT_PUBLIC_TIX_MINT_ADDRESS;
-  if (!storeWalletAddress)
-    throw new Error(
-      "Environment not set propertly, missing store wallet address"
-    );
   if (!tixMintAddress)
     throw new Error("Environment not set propertly, missing tix mint address");
 
