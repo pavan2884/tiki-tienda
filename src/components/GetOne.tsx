@@ -16,14 +16,21 @@ export default function GetOne() {
   const handleClick = async () => {
     if (!userWallet) throw new WalletNotConnectedError();
     const { storeWallet, tixMint } = loadWallets();
-    const storeAccount = await getAssociatedTokenAddress(tixMint, storeWallet);
-    const userAccount = await getAssociatedTokenAddress(tixMint, userWallet);
+    const storeTixAccount = await getAssociatedTokenAddress(
+      tixMint,
+      storeWallet
+    );
+    const userTixAccount = await getAssociatedTokenAddress(tixMint, userWallet);
     const transaction = new Transaction().add(
-      tixTransferInstruction(userAccount, storeAccount, userWallet),
+      tixTransferInstruction(userTixAccount, storeTixAccount, userWallet),
       solTransferInstruction(userWallet, storeWallet)
     );
-    const signature = await sendTransaction(transaction, connection);
-    await connection.confirmTransaction(signature, "processed");
+    try {
+      const signature = await sendTransaction(transaction, connection);
+      await connection.confirmTransaction(signature, "processed");
+    } catch (error) {
+      console.log("Transaction send/confirm failed", error);
+    }
     // await completeSale(publicKey, signature);
   };
 
