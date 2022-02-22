@@ -2,20 +2,15 @@
 import {
   AccountInfo,
   Connection,
-  Keypair,
   ParsedAccountData,
   PublicKey,
-  sendAndConfirmTransaction,
-  Transaction,
 } from "@solana/web3.js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import util from "util";
-import {
-  getAssociatedTokenAddress,
-  nftTransferInstruction,
-} from "../../utils/instructions";
+import { transferNft } from "../../transactions";
 
 const networkURL = "https://api.devnet.solana.com";
+const connection = new Connection(networkURL, "confirmed");
 
 type Data = {
   userWalletB58: string;
@@ -54,12 +49,11 @@ const getTokenAccounts = async (
   return tokenAccounts;
 };
 
-// cannot save the proper array in env vars
-const formatPrivateKeyArray = (key: string) => {
-  // Removes brackets to make processing correct
-  const csv = key.substring(1, key.length - 1);
-  const array = csv.split(",", 64).map((s) => parseInt(s));
-  return Uint8Array.from(array);
+const pickAnNft = async (storeWalletB58: string) => {
+  const nftAccounts = getNftAccounts(
+    await getTokenAccounts(storeWalletB58, connection)
+  );
+  return nftAccounts[(Math.random() * nftAccounts.length) | 0];
 };
 
 export default async function handler(
@@ -73,35 +67,16 @@ export default async function handler(
   const { userWalletB58, storeWalletB58, signature }: Data = req.body;
   console.log("api/getone", userWalletB58, storeWalletB58, signature);
 
-  const connection = new Connection(networkURL, "confirmed");
-  const nftAccounts = getNftAccounts(
-    await getTokenAccounts(storeWalletB58, connection)
-  );
-  const nftToTransfer = nftAccounts[(Math.random() * nftAccounts.length) | 0];
+  const nftToTransfer = await pickAnNft(storeWalletB58);
   console.log("nftToTransfer", util.inspect(nftToTransfer, false, 10, true));
-  const nftMint = nftToTransfer.account.data.parsed.info.mint;
 
-  const userWallet = new PublicKey(userWalletB58);
-  const storeWallet = new PublicKey(storeWalletB58);
-
-  const storeNftAccount = await getAssociatedTokenAddress(nftMint, storeWallet);
-  const userNftAccount = await getAssociatedTokenAddress(nftMint, userWallet);
-
-  const transaction = new Transaction().add(
-    nftTransferInstruction(storeNftAccount, userNftAccount, storeWallet)
+  await transferNft(
+    connection,
+    nftToTransfer,
+    userWalletB58,
+    storeWalletB58,
+    storeWalletPrivateEnv
   );
-
-  const storeWalletPrivate = formatPrivateKeyArray(storeWalletPrivateEnv);
-  console.log(storeWalletPrivate);
-  const storeWalletKeyPair = Keypair.fromSecretKey(storeWalletPrivate);
-  try {
-    const signature = await sendAndConfirmTransaction(connection, transaction, [
-      storeWalletKeyPair,
-    ]);
-    console.log("Nft send successful", signature);
-  } catch (error) {
-    console.log("Nft send failed!!!!", error);
-  }
 
   return res.status(200);
 }

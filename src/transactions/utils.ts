@@ -70,10 +70,19 @@ const loadWallets = (wallet: string) => {
   return { storeWallet, tixMint };
 };
 
+// cannot save the proper array in env vars
+const formatPrivateKeyArray = (key: string) => {
+  // Removes brackets to make processing correct
+  const csv = key.substring(1, key.length - 1);
+  const array = csv.split(",", 64).map((s) => parseInt(s));
+  return Uint8Array.from(array);
+};
+
 export {
   getAssociatedTokenAddress,
   solTransferInstruction,
   tixTransferInstruction,
   nftTransferInstruction,
   loadWallets,
+  formatPrivateKeyArray,
 };
