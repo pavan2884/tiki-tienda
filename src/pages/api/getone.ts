@@ -1,191 +1,107 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
-import web3, {
-  Keypair,
-  Transaction,
-  LAMPORTS_PER_SOL,
-  SystemProgram,
-  Connection,
-  sendAndConfirmTransaction,
-  PublicKey,
-} from "@solana/web3.js";
 import {
-  Token,
-  TOKEN_PROGRAM_ID,
-  ASSOCIATED_TOKEN_PROGRAM_ID,
-} from "@solana/spl-token";
+  AccountInfo,
+  Connection,
+  Keypair,
+  ParsedAccountData,
+  PublicKey,
+  sendAndConfirmTransaction,
+  Transaction,
+} from "@solana/web3.js";
+import type { NextApiRequest, NextApiResponse } from "next";
+import util from "util";
+import {
+  getAssociatedTokenAddress,
+  nftTransferInstruction,
+} from "../../utils/instructions";
 
-let networkURL: string;
-if (process.env.VERCEL_ENV == "production") {
-  networkURL = "https://solana-mainnet.phantom.tech";
-} else if (
-  process.env.VERCEL_ENV == "development" ||
-  process.env.VERCEL_ENV == "preview"
-) {
-  networkURL = "https://api.devnet.solana.com";
-}
+const networkURL = "https://api.devnet.solana.com";
 
 type Data = {
-  store: string;
-  user: string;
+  userWalletB58: string;
+  storeWalletB58: string;
   signature: string;
 };
 
-export default function handler(
+type Account = {
+  pubkey: PublicKey;
+  account: AccountInfo<ParsedAccountData>;
+};
+
+type Accounts = Array<Account>;
+
+const getNftAccounts = (tokenAccounts: Accounts) => {
+  // tokenAccounts.forEach(account => {
+  //   console.log(util.inspect(account, false, 10, true))
+  // })
+  return tokenAccounts.filter(
+    ({ account }) => account.data.parsed.info.tokenAmount.uiAmount === 1
+  );
+};
+
+const getTokenAccounts = async (
+  walletString: string,
+  connection: Connection
+) => {
+  const base58publicKey = new PublicKey(walletString);
+  const programId = new PublicKey(
+    "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+  );
+  const { value: tokenAccounts } =
+    await connection.getParsedTokenAccountsByOwner(base58publicKey, {
+      programId,
+    });
+  return tokenAccounts;
+};
+
+// cannot save the proper array in env vars
+const formatPrivateKeyArray = (key: string) => {
+  // Removes brackets to make processing correct
+  const csv = key.substring(1, key.length - 1);
+  const array = csv.split(",", 64).map((s) => parseInt(s));
+  return Uint8Array.from(array);
+};
+
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
-  console.log("getone", req, req.body);
-  // const requestData: Data = JSON.parse(req.body);
-  // console.log("getone", requestData);
-  res.status(500);
+  const storeWalletPrivateEnv = process.env.HONEYPOT_WALLET_PRIVATE;
+  if (!storeWalletPrivateEnv) {
+    return res.status(500);
+  }
+  const { userWalletB58, storeWalletB58, signature }: Data = req.body;
+  console.log("api/getone", userWalletB58, storeWalletB58, signature);
+
+  const connection = new Connection(networkURL, "confirmed");
+  const nftAccounts = getNftAccounts(
+    await getTokenAccounts(storeWalletB58, connection)
+  );
+  const nftToTransfer = nftAccounts[(Math.random() * nftAccounts.length) | 0];
+  console.log("nftToTransfer", util.inspect(nftToTransfer, false, 10, true));
+  const nftMint = nftToTransfer.account.data.parsed.info.mint;
+
+  const userWallet = new PublicKey(userWalletB58);
+  const storeWallet = new PublicKey(storeWalletB58);
+
+  const storeNftAccount = await getAssociatedTokenAddress(nftMint, storeWallet);
+  const userNftAccount = await getAssociatedTokenAddress(nftMint, userWallet);
+
+  const transaction = new Transaction().add(
+    nftTransferInstruction(storeNftAccount, userNftAccount, storeWallet)
+  );
+
+  const storeWalletPrivate = formatPrivateKeyArray(storeWalletPrivateEnv);
+  console.log(storeWalletPrivate);
+  const storeWalletKeyPair = Keypair.fromSecretKey(storeWalletPrivate);
+  try {
+    const signature = await sendAndConfirmTransaction(connection, transaction, [
+      storeWalletKeyPair,
+    ]);
+    console.log("Nft send successful", signature);
+  } catch (error) {
+    console.log("Nft send failed!!!!", error);
+  }
+
+  return res.status(200);
 }
-
-//   const formatPrivateKeyArray = (key) => {           //cannot save the proper array in env vars
-//     const csv = key.substring(1, (key.length - 1));   //Removes brackets to make processing correct
-//     const array = csv.split(",", 64);
-//     return Uint8Array.from(array);
-//   }
-
-//   //const priv = "[104,213,157,97,12,35,57,70,55,140,1,116,244,197,247,160,100,167,225,104,196,55,133,10,173,2,140,254,101,62,11,200,243,192,205,174,52,107,211,251,35,85,208,40,26,230,252,136,152,220,57,38,221,6,228,251,43,219,233,112,97,222,251,94]";
-//   const jackpotWalletPrivate = formatPrivateKeyArray(process.env.JACKPOT_WALLET_PRIVATE);
-//   const tixWalletPrivate = formatPrivateKeyArray(process.env.TIX_WALLET_PRIVATE);  //"[104,213,157,97,12,35,57,70,55,140,1,116,244,197,247,160,100,167,225,104,196,55,133,10,173,2,140,254,101,62,11,200,243,192,205,174,52,107,211,251,35,85,208,40,26,230,252,136,152,220,57,38,221,6,228,251,43,219,233,112,97,222,251,94]"); //
-//   // console.log(jackpotWalletPrivate);
-//   //console.log(tixWalletPrivate);
-
-//   const jackpotKeyPair = Keypair.fromSecretKey(jackpotWalletPrivate);
-//   const tixKeyPair = Keypair.fromSecretKey(tixWalletPrivate);
-
-//   // const requestData = JSON.parse(req.body);
-//   const user = new PublicKey(requestData.publicKey)
-
-//   const connection = new Connection(
-//     networkURL,
-//     'confirmed',
-//   );
-
-//   const sendtxn = async (tix: number) => {
-
-//     const tixPublicKey = new PublicKey(process.env.NEXT_PUBLIC_TIX_WALLET);   //Wallet that tix are sent from
-//     const mint = new PublicKey(process.env.NEXT_PUBLIC_TIX_ADDR);             //  TIX token address
-
-//     const mintToken = new Token(
-//       connection,
-//       mint,
-//       TOKEN_PROGRAM_ID,
-//       tixKeyPair
-//     );
-//     const associatedDestinationTokenAddr = await Token.getAssociatedTokenAddress(
-//       mintToken.associatedProgramId,
-//       mintToken.programId,
-//       mint,
-//       user
-//     );
-//     let newassociated = associatedDestinationTokenAddr;
-
-//     const receiverAccount = await connection.getAccountInfo(associatedDestinationTokenAddr);
-
-//     let from = await Token.getAssociatedTokenAddress(
-//       ASSOCIATED_TOKEN_PROGRAM_ID, // always ASSOCIATED_TOKEN_PROGRAM_ID
-//       TOKEN_PROGRAM_ID, // always TOKEN_PROGRAM_ID
-//       mint, // mint
-//       tixPublicKey// owner
-//     );
-
-//     let to = await Token.getAssociatedTokenAddress(
-//       ASSOCIATED_TOKEN_PROGRAM_ID, // always ASSOCIATED_TOKEN_PROGRAM_ID
-//       TOKEN_PROGRAM_ID, // always TOKEN_PROGRAM_ID
-//       mint, // mint
-//       user // owner
-//     );
-//     const instructions: web3.TransactionInstruction[] = [];
-//     if (receiverAccount === null) {
-//       instructions.push(
-//         Token.createAssociatedTokenAccountInstruction(
-//           mintToken.associatedProgramId,
-//           mintToken.programId,
-//           mint,
-//           associatedDestinationTokenAddr,
-//           user,
-//           tixPublicKey
-//         )
-//       )
-//     }
-//     instructions.push(
-//       Token.createTransferInstruction(
-//         TOKEN_PROGRAM_ID,
-//         from,
-//         newassociated,
-//         tixPublicKey,
-//         [tixKeyPair],
-//         tix * LAMPORTS_PER_SOL,
-//       )
-//     )
-//     const transaction = new Transaction().add(...instructions);
-
-//     await sendAndConfirmTransaction(
-//       connection,
-//       transaction,
-//       [tixKeyPair],
-//     );
-//   }
-
-//   const sendJackpot = async () => {
-
-//     const transaction = new Transaction().add(
-//       SystemProgram.transfer({
-//         fromPubkey: jackpotKeyPair.publicKey,
-//         toPubkey: user,
-//         lamports: (LAMPORTS_PER_SOL * (requestData.jackpot - 0.002)),
-//       }),
-//     );
-//     await sendAndConfirmTransaction(
-//       connection,
-//       transaction,
-//       [jackpotKeyPair],
-//     )
-//   }
-
-//   const spin = async () => {
-//     if (process.env.VERCEL_ENV == "production") {     //NOTE!!! these must be maintained as same values in runslot.tsx
-//       if (requestData.value <= .0002) {
-//         await sendJackpot()
-//       } else if (requestData.value < .33) {
-//         await sendtxn(1)
-//       } else if (requestData.value < .57) {
-//         await sendtxn(2)
-//       } else if (requestData.value < .77) {
-//         await sendtxn(3)
-//       } else if (requestData.value < .92) {
-//         await sendtxn(4)
-//       } else if (requestData.value < .99) {
-//         await sendtxn(5)
-//       } else if (requestData.value <= 1) {
-//         await sendtxn(25)
-//       }
-//       return "sending..."
-//     } else if (process.env.VERCEL_ENV == "development" || process.env.VERCEL_ENV == "preview") {       //Note the abnormal distribution
-//       if (requestData.value <= .3) {
-//         await sendJackpot()
-//       } else if (requestData.value < .4) {
-//         await sendtxn(1)
-//       } else if (requestData.value < .55) {
-//         await sendtxn(2)
-//       } else if (requestData.value < .67) {
-//         await sendtxn(3)
-//       } else if (requestData.value < .72) {
-//         await sendtxn(4)
-//       } else if (requestData.value < .85) {
-//         await sendtxn(5)
-//       } else if (requestData.value <= 1) {
-//         await sendtxn(25)
-//       }
-//       return "sending..."
-//     }
-//   }
-
-//   const result = await spin()
-
-//   res.status(200).json({ spin: result })
-
-// }

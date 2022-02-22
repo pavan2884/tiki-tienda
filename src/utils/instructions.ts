@@ -28,6 +28,21 @@ const solTransferInstruction = (
   });
 };
 
+const nftTransferInstruction = (
+  fromAccount: PublicKey,
+  toAccount: PublicKey,
+  payeeWallet: PublicKey
+) => {
+  return Token.createTransferInstruction(
+    TOKEN_PROGRAM_ID,
+    fromAccount,
+    toAccount,
+    payeeWallet,
+    [],
+    1 * LAMPORTS_PER_SOL
+  );
+};
+
 const tixTransferInstruction = (
   userAccount: PublicKey,
   storeAccount: PublicKey,
@@ -59,5 +74,6 @@ export {
   getAssociatedTokenAddress,
   solTransferInstruction,
   tixTransferInstruction,
+  nftTransferInstruction,
   loadWallets,
 };
