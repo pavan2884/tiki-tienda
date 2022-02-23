@@ -60,23 +60,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const storeWalletPrivateEnv = process.env.HONEYPOT_WALLET_PRIVATE;
-  if (!storeWalletPrivateEnv) {
-    return res.status(500);
-  }
   const { userWalletB58, storeWalletB58, signature }: Data = req.body;
   console.log("api/getone", userWalletB58, storeWalletB58, signature);
 
-  const nftToTransfer = await pickAnNft(storeWalletB58);
-  console.log("nftToTransfer", util.inspect(nftToTransfer, false, 10, true));
-
-  await transferNft(
-    connection,
-    nftToTransfer,
-    userWalletB58,
-    storeWalletB58,
-    storeWalletPrivateEnv
-  );
-
-  return res.status(200);
+  try {
+    const nftToTransfer = await pickAnNft(storeWalletB58);
+    await transferNft(connection, nftToTransfer, userWalletB58, storeWalletB58);
+    return res.status(200);
+  } catch (error) {
+    return res.status(500);
+  }
 }

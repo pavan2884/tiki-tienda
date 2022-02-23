@@ -52,18 +52,27 @@ const processTransaction = async (
   }
 };
 
+// TODO: Update to map the wallet58 parameter to the right private key
+const getKeypair = (wallet58: string) => {
+  const storeWalletPrivateEnv = process.env.HONEYPOT_WALLET_PRIVATE;
+  if (!storeWalletPrivateEnv) {
+    throw new Error("Missing private key");
+  }
+  const storeWalletKeyPair = Keypair.fromSecretKey(
+    formatPrivateKeyArray(storeWalletPrivateEnv)
+  );
+  return storeWalletKeyPair;
+};
+
 const transferNft = async (
   connection: Connection,
   nftToTransfer: Account,
   userWalletB58: string,
-  storeWalletB58: string,
-  storeWalletPrivateEnv: string
+  storeWalletB58: string
 ) => {
   const nftMint = nftToTransfer.account.data.parsed.info.mint;
-
   const userWallet = new PublicKey(userWalletB58);
   const storeWallet = new PublicKey(storeWalletB58);
-
   const storeNftAccount = await getAssociatedTokenAddress(nftMint, storeWallet);
   const userNftAccount = await getAssociatedTokenAddress(nftMint, userWallet);
 
@@ -71,9 +80,8 @@ const transferNft = async (
     nftTransferInstruction(storeNftAccount, userNftAccount, storeWallet)
   );
 
-  const storeWalletPrivate = formatPrivateKeyArray(storeWalletPrivateEnv);
-  console.log(storeWalletPrivate);
-  const storeWalletKeyPair = Keypair.fromSecretKey(storeWalletPrivate);
+  const storeWalletKeyPair = getKeypair(storeWalletB58);
+
   try {
     const signature = await sendAndConfirmTransaction(connection, transaction, [
       storeWalletKeyPair,
