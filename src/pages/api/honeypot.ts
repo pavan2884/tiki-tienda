@@ -7,7 +7,7 @@ type Data = {
 
 export default function handler(
   _req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data | Error>
 ) {
   if (process.env.HONEYPOT_WALLET_ADDRESS) {
     res.status(200).json({
@@ -15,6 +15,6 @@ export default function handler(
       price: 15,
     });
   } else {
-    res.status(500);
+    res.status(500).json(new Error("Internal server error"));
   }
 }

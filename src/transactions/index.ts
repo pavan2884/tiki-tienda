@@ -1,3 +1,4 @@
+import { SignalWifiStatusbar4BarRounded } from "@mui/icons-material";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import {
@@ -41,6 +42,7 @@ const processTransaction = async (
   try {
     const signature = await sendTransaction(transaction, connection);
     await connection.confirmTransaction(signature, "processed");
+    console.log("Payment done");
     const result = await axios.post("/api/getone", {
       userWalletB58: userWallet.toBase58(),
       storeWalletB58: storeWallet.toBase58(),
@@ -69,12 +71,18 @@ const transferNft = async (
   nftToTransfer: Account,
   userWalletB58: string,
   storeWalletB58: string
-) => {
-  const nftMint = nftToTransfer.account.data.parsed.info.mint;
+): Promise<string> => {
+  console.log("Nft picked", nftToTransfer.account.data.parsed.info.mint);
+  const nftMintPk = new PublicKey(nftToTransfer.account.data.parsed.info.mint);
+
   const userWallet = new PublicKey(userWalletB58);
+  const userNftAccount = await getAssociatedTokenAddress(nftMintPk, userWallet);
+
   const storeWallet = new PublicKey(storeWalletB58);
-  const storeNftAccount = await getAssociatedTokenAddress(nftMint, storeWallet);
-  const userNftAccount = await getAssociatedTokenAddress(nftMint, userWallet);
+  const storeNftAccount = await getAssociatedTokenAddress(
+    nftMintPk,
+    storeWallet
+  );
 
   const transaction = new Transaction().add(
     nftTransferInstruction(storeNftAccount, userNftAccount, storeWallet)
@@ -86,10 +94,12 @@ const transferNft = async (
     const signature = await sendAndConfirmTransaction(connection, transaction, [
       storeWalletKeyPair,
     ]);
-    console.log("Nft send successful", signature);
+    console.log("Signature", signature);
+    return signature;
   } catch (error) {
     console.log("Nft send failed!!!!", error);
   }
+  return "Transaction failed";
 };
 
 export { processTransaction, transferNft };

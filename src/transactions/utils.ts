@@ -39,7 +39,7 @@ const nftTransferInstruction = (
     toAccount,
     payeeWallet,
     [],
-    1 * LAMPORTS_PER_SOL
+    1
   );
 };
 

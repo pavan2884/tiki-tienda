@@ -60,14 +60,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { userWalletB58, storeWalletB58, signature }: Data = req.body;
-  console.log("api/getone", userWalletB58, storeWalletB58, signature);
+  console.log("api/getone", req.body);
+  const { userWalletB58, storeWalletB58 }: Data = req.body;
 
   try {
     const nftToTransfer = await pickAnNft(storeWalletB58);
-    await transferNft(connection, nftToTransfer, userWalletB58, storeWalletB58);
-    return res.status(200);
+    const result = await transferNft(
+      connection,
+      nftToTransfer,
+      userWalletB58,
+      storeWalletB58
+    );
+    return res.status(200).json({ signature: result });
   } catch (error) {
-    return res.status(500);
+    console.log(error);
   }
+  return res.status(500).json(new Error("Internal server error"));
 }
