@@ -29,7 +29,7 @@ const theme = createTheme({
             url(./fonts/Tiki-Tropic.ttf) format("truetype");
         }
         body {
-          background-color: #FFAF70;
+          background-color: #ffb272
         }
       `,
     },

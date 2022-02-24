@@ -28,12 +28,12 @@ export default function HoneyPot() {
   const { data, isLoading, isError } = useHoneyPot();
   if (!data) {
     if (isLoading) {
-      return <div>Loading....</div>;
+      return <div>Loading Honeypot....</div>;
     } else if (isError) {
       return <div>Error</div>;
     }
   } else {
-    console.log(data.data);
+    //console.log(data.data);
     const { wallet, price } = data.data;
     return (
       <Box sx={{ height: "100%", p: 14 }}>
@@ -45,4 +45,5 @@ export default function HoneyPot() {
       </Box>
     );
   }
+  return <div />;
 }

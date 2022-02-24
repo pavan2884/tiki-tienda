@@ -6,9 +6,9 @@ import Hut from "./Hut";
 import Gold from "./Gold";
 import HoneyPot from "./HoneyPot";
 
-// For testing, disable for production
-// const border = "2px dashed green";
-const border = "";
+// !!! For testing, disable for production
+const border = "2px dashed green";
+//const border = "";
 
 export default function Layout() {
   return (
@@ -21,20 +21,20 @@ export default function Layout() {
         gridTemplateRows: "auto",
         gridTemplateAreas: `"banner banner offers offers offers"
                               "banner banner offers offers offers"
-                              "hut . offers offers offers"
-                              "hut gold gold honeypot honeypot"
-                              "hut gold gold honeypot honeypot"`,
+                              ". . offers offers offers"
+                              ". . gold honeypot honeypot"
+                              ". . gold honeypot honeypot"`,
       }}
     >
-      <Box sx={{ gridArea: "banner", border }}>
+      <Box sx={{ gridArea: "banner", height: "25vw", border }}>
         <InfoSign />
       </Box>
       <Box sx={{ gridArea: "offers", border }}>
         <Offers />
       </Box>
-      <Box sx={{ gridArea: "hut", border }}>
+      {/*<Box sx={{ gridArea: "hut", border }}>
         <Hut />
-      </Box>
+      </Box> */}
       <Box sx={{ gridArea: "gold", border }}>
         <Gold />
       </Box>
