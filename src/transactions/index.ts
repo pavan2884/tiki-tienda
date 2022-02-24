@@ -1,4 +1,3 @@
-import { SignalWifiStatusbar4BarRounded } from "@mui/icons-material";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import {
