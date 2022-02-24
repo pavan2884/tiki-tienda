@@ -11,8 +11,10 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import useSWR from "swr";
+import GetOne from "./GetOne";
 
 type Offer = {
+  wallet58: string;
   name: string;
   remaining: string;
   cost: number;
@@ -58,27 +60,29 @@ export default function Offers() {
         FEATURED OFFERS
       </Typography>
       <Grid container spacing={4}>
-        {data?.offers.map(({ name, remaining, cost, image }: Offer, index) => (
-          <Grid item key={index} xs={12} sm={6} md={4}>
-            <Card
-              sx={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <CardHeader title={name} />
-              <CardMedia component="img" image={image} alt="random" />
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography>Remaining: {remaining}</Typography>
-                <Typography>Cost: {cost}</Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small">Get One!</Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
+        {data?.offers.map(
+          ({ wallet58, name, remaining, cost, image }: Offer, index) => (
+            <Grid item key={index} xs={12} sm={6} md={4}>
+              <Card
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <CardHeader title={name} />
+                <CardMedia component="img" image={image} alt="random" />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography>Remaining: {remaining}</Typography>
+                  <Typography>Cost: {cost}</Typography>
+                </CardContent>
+                <CardActions>
+                  <GetOne wallet={wallet58} />
+                </CardActions>
+              </Card>
+            </Grid>
+          )
+        )}
       </Grid>
     </Box>
   );

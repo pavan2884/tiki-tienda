@@ -3,11 +3,6 @@ import axios from "axios";
 import useSWR from "swr";
 import GetOne from "./GetOne";
 
-type Data = {
-  wallet: string;
-  price: number;
-};
-
 const fetcher = async (url: string) => {
   try {
     const { data } = await axios.get(url);
