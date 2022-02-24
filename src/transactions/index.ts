@@ -10,6 +10,7 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import axios from "axios";
+import { keyMap } from "../config";
 import {
   formatPrivateKeyArray,
   getAssociatedTokenAddress,
@@ -53,9 +54,8 @@ const processTransaction = async (
   }
 };
 
-// TODO: Update to map the wallet58 parameter to the right private key
 const getKeypair = (wallet58: string) => {
-  const storeWalletPrivateEnv = process.env.HONEYPOT_WALLET_PRIVATE;
+  const storeWalletPrivateEnv = keyMap(wallet58);
   if (!storeWalletPrivateEnv) {
     throw new Error("Missing private key");
   }

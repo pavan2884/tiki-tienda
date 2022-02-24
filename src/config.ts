@@ -5,7 +5,7 @@ const honeypot = {
 
 const offers = [
   {
-    wallet58: "By4VVtPCL2iSEHYEzbaGN8EWhQqFD8vKwYuQXS14evrm",
+    wallet58: process.env.OFFER_1_WALLET_ADDRESS || "",
     name: "Sovana",
     remaining: "3/7",
     cost: 44,
@@ -13,7 +13,7 @@ const offers = [
       "https://dl.airtable.com/.attachmentThumbnails/132a746ad38e113c7880c7b66f319ecd/e58d73b6",
   },
   {
-    wallet58: "CEnrTBujymEHZSknERHL3EkBQBmk9qiw4v96m5SNczc",
+    wallet58: process.env.OFFER_2_WALLET_ADDRESS || "",
     name: "Famous Fox Federation",
     remaining: "3/7",
     cost: 44,
@@ -21,7 +21,7 @@ const offers = [
       "https://ipfs.io/ipfs/Qmetu9eyf7jxE9cNV9MYMWborQBGHqurt1MvD2LjwDcumy",
   },
   {
-    wallet58: "5C6XJBJvsmZd5tCVrmQsZDxg4Py8UaH6p9wQkUHFdqvM",
+    wallet58: process.env.OFFER_3_WALLET_ADDRESS || "",
     name: "DeGods",
     remaining: "3/7",
     cost: 44,
@@ -29,4 +29,19 @@ const offers = [
   },
 ];
 
-export { honeypot, offers };
+const keyMap = (wallet58: string) => {
+  switch (wallet58) {
+    case process.env.HONEYPOT_WALLET_ADDRESS:
+      return process.env.HONEYPOT_WALLET_PRIVATE;
+    case process.env.OFFER_1_WALLET_ADDRESS:
+      return process.env.OFFER_1_WALLET_PRIVATE;
+    case process.env.OFFER_2_WALLET_ADDRESS:
+      return process.env.OFFER_2_WALLET_PRIVATE;
+    case process.env.OFFER_3_WALLET_ADDRESS:
+      return process.env.OFFER_3_WALLET_PRIVATE;
+    default:
+      throw new Error("Unknown wallet!!!!!!!!!!");
+  }
+};
+
+export { honeypot, offers, keyMap };
