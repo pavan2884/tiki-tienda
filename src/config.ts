@@ -1,6 +1,6 @@
 const honeypot = {
   wallet: process.env.HONEYPOT_WALLET_ADDRESS,
-  price: 15,
+  cost: 15,
 };
 
 const offers = [
