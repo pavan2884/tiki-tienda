@@ -53,8 +53,9 @@ export default function InfoSign() {
           }}
           color="black"
         >
-          Be sure to check back often, as we have amazing offers that don't last
-          long!
+          {
+            "Be sure to check back often, as we have amazing offers that don't last long!"
+          }
         </Typography>
       </Box>
     </Box>
