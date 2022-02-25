@@ -12,6 +12,7 @@ import useSWR from "swr";
 import GetOne from "./GetOne";
 
 type Offer = {
+  wallet58: string;
   name: string;
   remaining: string;
   cost: number;
