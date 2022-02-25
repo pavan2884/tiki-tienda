@@ -22,28 +22,53 @@ export default function GetOne({ wallet }: { wallet: string }) {
 
   return (
     <Box>
-      <Button
-        sx={{
-          width: "100%",
-          height: "100%",
-          overflow: "visible",
-          backgroundImage: "url(/assets/blank-bar.png)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "100% 80%",
-        }}
-        onClick={onClick}
-      >
-        <Typography
+      {wallet === "false" ? (
+        <Button
           sx={{
-            paddingBottom: 2,
+            width: "100%",
+            height: "100%",
+            overflow: "visible",
+            backgroundImage: "url(/assets/blank-bar.png)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "100% 80%",
+            cursor: "default",
           }}
-          color="#02f077"
-          variant="h4"
-          align="center"
         >
-          Get One!
-        </Typography>
-      </Button>
+          <Typography
+            sx={{
+              paddingBottom: 2,
+            }}
+            color="#9a9c9c"
+            variant="h4"
+            align="center"
+          >
+            Sold Out
+          </Typography>
+        </Button>
+      ) : (
+        <Button
+          sx={{
+            width: 300,
+            height: "100%",
+            overflow: "visible",
+            backgroundImage: "url(/assets/blank-bar.png)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "100% 80%",
+          }}
+          onClick={onClick}
+        >
+          <Typography
+            sx={{
+              paddingBottom: 2,
+            }}
+            color="#02f077"
+            variant="h3"
+            align="center"
+          >
+            Get One!
+          </Typography>
+        </Button>
+      )}
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={open}

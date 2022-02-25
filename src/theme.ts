@@ -31,8 +31,11 @@ const theme = createTheme({
         body {
           background-color: #ffb272
         }
-        .MuiCardHeader-title {
-          fontSize: "22px"        
+        title {
+          font-size: "55px"
+        }
+        media {
+          background-color: #ffffff
         }
       `,
     },

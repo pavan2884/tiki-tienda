@@ -15,14 +15,14 @@ const border =
 const Base = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     gridTemplateAreas: `"banner banner offers offers offers" 
-                              ". . offers offers offers"
+                              "hut hut offers offers offers"
                               "honeypot honeypot offers offers offers"
                               ". . offers offers offers"
                               ". . offers offers offers"`,
   },
   [theme.breakpoints.between("md", "lg")]: {
     gridTemplateAreas: `"banner banner offers offers offers" 
-                              " . . offers offers offers"
+                              " hut hut offers offers offers"
                               "honeypot honeypot offers offers offers"
                               "honeypot honeypot offers offers offers"`,
   },
@@ -30,8 +30,9 @@ const Base = styled(Box)(({ theme }) => ({
     gridTemplateAreas: `"banner banner offers offers offers"
                               "banner banner offers offers offers"
                               "hut hut offers offers offers"
+                              ". . . . . "
                               ". . .  honeypot honeypot"
-                              ". .  . honeypot honeypot"`,
+                              ". . . honeypot honeypot"`,
   },
 }));
 

@@ -35,8 +35,9 @@ function useOffers() {
 }
 
 export default function Offers() {
+  //data: Data
   const { data } = useOffers();
-  console.log("offers", data);
+  //console.log("offers", data);
   return (
     <Box sx={{ height: "100%", m: "2vw" }}>
       <Typography
@@ -47,14 +48,16 @@ export default function Offers() {
           backgroundImage: "url(/assets/blank-bar.png)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% 100%",
-          m: 4,
+          marginTop: 6,
+          marginLeft: "9vw",
+          marginRight: "9vw",
           paddingBottom: 1,
           fontFamily: "Tiki Tropic",
         }}
         gutterBottom
         color="#02f077"
         variant="h3"
-        component="h2"
+        component="h3"
         align="center"
       >
         FEATURED OFFERS
@@ -75,7 +78,7 @@ export default function Offers() {
                 <CardHeader
                   title={name}
                   sx={{
-                    width: "80%",
+                    width: "77%",
                     height: "60%",
                     backgroundImage: "url(/assets/blank-bar.png)",
                     backgroundRepeat: "no-repeat",
@@ -83,7 +86,7 @@ export default function Offers() {
                     alignSelf: "center",
                     textOverflow: "ellipse",
                     paddingTop: 0.7,
-                    paddingBottom: 2,
+                    paddingBottom: 1,
                     marginBottom: -0.4,
                   }}
                 ></CardHeader>
@@ -93,6 +96,8 @@ export default function Offers() {
                       borderLeftStyle: "solid",
                       borderRightStyle: "solid",
                       borderColor: "#1f2022",
+                      backgroundColor: "#00000080",
+                      p: 2,
                     }}
                     component="img"
                     image={image}
@@ -119,39 +124,50 @@ export default function Offers() {
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "100% 100%",
                         display: "flex",
+                        paddingLeft: 1.5,
+                        paddingTop: 0.5,
+                        paddingBottom: 1,
                       }}
                     >
-                      <Typography
-                        sx={{
-                          p: 1,
-                        }}
-                        color="#00fff1"
-                        variant="h4"
-                      >
+                      <Typography color="#00fff1" variant="h4">
                         Remaining:
                       </Typography>
-                      <Typography
-                        sx={{
-                          p: 1,
-                        }}
-                        variant="h4"
-                      >
-                        {remaining}
-                      </Typography>
+                      {parseInt(remaining) === 0 ? (
+                        <Typography
+                          sx={{
+                            paddingLeft: 1,
+                          }}
+                          color="#dd0000"
+                          variant="h4"
+                        >
+                          {remaining}
+                        </Typography>
+                      ) : (
+                        <Typography
+                          sx={{
+                            paddingLeft: 1,
+                          }}
+                          variant="h4"
+                        >
+                          {remaining}
+                        </Typography>
+                      )}
                     </Box>
                   </Box>
                   <Box>
                     <Box
                       sx={{
-                        width: "117%",
+                        width: "100%",
                         height: "100%",
                         backgroundImage: "url(/assets/featured-cost.png)",
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "100% 100%",
                         display: "flex",
                         alignSelf: "left",
-                        marginTop: -1.5,
-                        marginBottom: 0.2,
+                        marginBottom: 0.5,
+                        paddingTop: 1.1,
+                        paddingBottom: 1.3,
+                        paddingLeft: 1.5,
                         overflow: "visible",
                       }}
                     >
@@ -159,9 +175,6 @@ export default function Offers() {
                         sx={{
                           display: "flex",
                           flexDirection: "column",
-                          paddingTop: 2,
-                          paddingBottom: 1,
-                          paddingLeft: 1,
                         }}
                         color="#00fff1"
                         variant="h4"
@@ -172,8 +185,6 @@ export default function Offers() {
                         sx={{
                           display: "flex",
                           flexDirection: "column",
-                          paddingTop: 2,
-                          paddingBottom: 1,
                           paddingLeft: 1,
                         }}
                         variant="h4"
@@ -182,7 +193,11 @@ export default function Offers() {
                       </Typography>
                     </Box>
                   </Box>
-                  {remaining ? <GetOne wallet={wallet58} /> : <Box />}
+                  {remaining ? (
+                    <GetOne wallet={wallet58} />
+                  ) : (
+                    <GetOne wallet={"false"} />
+                  )}
                 </CardContent>
               </Card>
             </Grid>
