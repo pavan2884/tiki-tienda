@@ -11,9 +11,13 @@ Recent purchases on the shop
 
 ### Code structure
 
-src/pages - routes for the application ui pages
 src/pages/api - api endpoints, serverless based
-src/utils - common domain logic and utilities across full-stack
+
+src/pages - routes for the application ui pages
+src/components - React/UI components
+
+src/accounts - utils for fetching and filtering NFTs
+src/transactions - utils for payments and token transfers
 
 ### Resources for MUI with NextJS
 

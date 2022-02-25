@@ -1,7 +1,7 @@
 import { Connection } from "@solana/web3.js";
 
-const network = "https://api.devnet.solana.com";
-// const network = "https://api.mainnet-beta.solana.com";
+const network =
+  process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.devnet.solana.com";
 const connection = new Connection(network, "confirmed");
 
 const honeypot = {
