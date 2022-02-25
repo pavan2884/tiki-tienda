@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import InfoSign from "./InfoSign";
 import Offers from "./Offers";
 //import Hut from "./Hut";
-import Gold from "./Gold";
+//import Gold from "./Gold";
 import HoneyPot from "./HoneyPot";
 import { styled } from "@mui/material/styles";
 
@@ -15,24 +15,23 @@ const border =
 const Base = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     gridTemplateAreas: `"banner banner offers offers offers" 
+                              ". . offers offers offers"
                               "honeypot honeypot offers offers offers"
-                              "honeypot honeypot offers offers offers"
-                              "gold gold offers offers offers"
-                              "gold gold offers offers offers"`,
+                              ". . offers offers offers"
+                              ". . offers offers offers"`,
   },
   [theme.breakpoints.between("md", "lg")]: {
     gridTemplateAreas: `"banner banner offers offers offers" 
                               " . . offers offers offers"
                               "honeypot honeypot offers offers offers"
-                              "honeypot honeypot offers offers offers"
-                              "gold gold . . ."`,
+                              "honeypot honeypot offers offers offers"`,
   },
   [theme.breakpoints.up("lg")]: {
     gridTemplateAreas: `"banner banner offers offers offers"
                               "banner banner offers offers offers"
                               "hut hut offers offers offers"
-                              ". . gold honeypot honeypot"
-                              ". . gold honeypot honeypot"`,
+                              ". . .  honeypot honeypot"
+                              ". .  . honeypot honeypot"`,
   },
 }));
 
@@ -55,10 +54,10 @@ export default function Layout() {
       </Box>
       {/*<Box sx={{ gridArea: "hut", border }}>
         <Hut />
-      </Box> */}
+      </Box> 
       <Box sx={{ gridArea: "gold", border }}>
         <Gold />
-      </Box>
+      </Box>  */}
       <Box sx={{ gridArea: "honeypot", border }}>
         <HoneyPot />
       </Box>

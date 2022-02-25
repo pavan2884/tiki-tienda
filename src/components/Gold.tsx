@@ -5,9 +5,9 @@ export default function Gold() {
     <Box
       sx={{
         height: "100%",
-        marginTop: "9vw",
-        marginLeft: -20,
-        marginRight: -6,
+        marginTop: "10vw",
+        marginLeft: "-10vw",
+        marginRight: -3,
         backgroundImage: "url(/assets/treasure.png)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "100%",

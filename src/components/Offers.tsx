@@ -75,19 +75,19 @@ export default function Offers() {
                 <CardHeader
                   title={name}
                   sx={{
-                    width: "90%",
+                    width: "80%",
                     height: "60%",
                     backgroundImage: "url(/assets/blank-bar.png)",
                     backgroundRepeat: "no-repeat",
-                    backgroundSize: "100% 90%",
+                    backgroundSize: "100% 100%",
                     alignSelf: "center",
-                    textOverflow: "clip",
+                    textOverflow: "ellipse",
                     paddingTop: 0.7,
                     paddingBottom: 2,
-                    marginBottom: -1.1,
+                    marginBottom: -0.4,
                   }}
                 ></CardHeader>
-                <Box sx={{ paddingInline: "3vw" }}>
+                <Box sx={{ paddingInline: 7 }}>
                   <CardMedia
                     sx={{
                       borderLeftStyle: "solid",
@@ -99,23 +99,31 @@ export default function Offers() {
                     alt="random"
                   />
                 </Box>
-                <CardContent sx={{ flexGrow: 1, p: 2, paddingTop: 0 }}>
+                <CardContent
+                  sx={{
+                    display: "grid",
+                    width: "100%",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    paddingTop: 0,
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                  }}
+                >
                   <Box>
                     <Box
                       sx={{
                         width: "100%",
-                        height: "80%",
+                        height: "100%",
                         backgroundImage: "url(/assets/blank-bar.png)",
                         backgroundRepeat: "no-repeat",
-                        backgroundSize: "100% 80%",
+                        backgroundSize: "100% 100%",
                         display: "flex",
-                        alignSelf: "center",
                       }}
                     >
                       <Typography
                         sx={{
-                          paddingBottom: 1.5,
-                          paddingLeft: 1,
+                          p: 1,
                         }}
                         color="#00fff1"
                         variant="h4"
@@ -124,10 +132,8 @@ export default function Offers() {
                       </Typography>
                       <Typography
                         sx={{
-                          paddingBottom: 1.5,
-                          paddingLeft: 1,
+                          p: 1,
                         }}
-                        color="#ffffff"
                         variant="h4"
                       >
                         {remaining}
@@ -137,14 +143,16 @@ export default function Offers() {
                   <Box>
                     <Box
                       sx={{
-                        width: "100%",
+                        width: "117%",
                         height: "100%",
                         backgroundImage: "url(/assets/featured-cost.png)",
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "100% 100%",
                         display: "flex",
                         alignSelf: "left",
-                        marginTop: -2,
+                        marginTop: -1.5,
+                        marginBottom: 0.2,
+                        overflow: "visible",
                       }}
                     >
                       <Typography
@@ -168,14 +176,17 @@ export default function Offers() {
                           paddingBottom: 1,
                           paddingLeft: 1,
                         }}
-                        color="#ffffff"
                         variant="h4"
                       >
                         {cost}
                       </Typography>
                     </Box>
                   </Box>
-                  {remaining ? <GetOne wallet={wallet58} /> : <Box />}
+                  {remaining ? (
+                    <GetOne wallet={wallet58} />
+                  ) : (
+                    <GetOne wallet={wallet58} />
+                  )}
                 </CardContent>
               </Card>
             </Grid>

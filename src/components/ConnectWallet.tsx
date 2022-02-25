@@ -10,6 +10,7 @@ const ConnectWallet = () => {
   const clickHandler = () => !wallet && setOpen(true);
   return (
     <Box
+      sx={{ cursor: "pointer" }}
       display="flex"
       width="100%"
       height="100vh"

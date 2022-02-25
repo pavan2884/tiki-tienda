@@ -36,25 +36,27 @@ export default function HoneyPot() {
   } else {
     const { wallet, cost } = data.data;
     return (
-      <Box sx={{ height: "100%", p: 14 }}>
-        <Stack spacing={2}>
+      <Box sx={{ height: "100%" }}>
+        <Stack spacing={0.5}>
           <Box
             sx={{
-              width: "70%",
+              width: 280,
               height: "100%",
               backgroundImage: "url(/assets/honeypot-title.png)",
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 100%",
               alignSelf: "start",
+              marginBottom: -1.5,
             }}
           >
             <Typography
               sx={{
-                paddingBottom: 1.5,
+                paddingTop: 0.5,
+                paddingBottom: 1,
                 paddingLeft: 1,
               }}
               color="#02f077"
-              variant="h5"
+              variant="h4"
               align="left"
             >
               Turnt Up Honeypot
@@ -62,12 +64,14 @@ export default function HoneyPot() {
           </Box>
           <Box
             sx={{
-              width: "70%",
-              height: "80%",
+              width: 330,
+              height: "75%",
               backgroundImage: "url(/assets/featured-cost.png)",
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 100%",
-              marginTop: -2,
+              display: "flex",
+              alignSelf: "left",
+              overflow: "visible",
             }}
           >
             <Typography
@@ -78,14 +82,29 @@ export default function HoneyPot() {
                 paddingBottom: 1,
                 paddingLeft: 1,
               }}
-              color="#02f077"
-              variant="h5"
+              color="#00fff1"
+              variant="h4"
               align="left"
             >
-              CoSt: {cost}
+              CoSt:
+            </Typography>
+            <Typography
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                paddingTop: 2,
+                paddingBottom: 1,
+                paddingLeft: 1,
+              }}
+              variant="h4"
+              align="left"
+            >
+              {cost}
             </Typography>
           </Box>
-          <GetOne wallet={wallet} />
+          <Box sx={{ width: 280 }}>
+            <GetOne wallet={wallet} />
+          </Box>
         </Stack>
       </Box>
     );

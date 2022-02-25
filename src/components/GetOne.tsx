@@ -25,7 +25,7 @@ export default function GetOne({ wallet }: { wallet: string }) {
       <Button
         sx={{
           width: "100%",
-          height: "80%",
+          height: "100%",
           overflow: "visible",
           backgroundImage: "url(/assets/blank-bar.png)",
           backgroundRepeat: "no-repeat",
@@ -35,10 +35,10 @@ export default function GetOne({ wallet }: { wallet: string }) {
       >
         <Typography
           sx={{
-            paddingBottom: 1,
+            paddingBottom: 2,
           }}
           color="#02f077"
-          variant="h5"
+          variant="h4"
           align="center"
         >
           Get One!
