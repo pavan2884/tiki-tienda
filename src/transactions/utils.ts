@@ -46,7 +46,8 @@ const nftTransferInstruction = (
 const tixTransferInstruction = (
   userAccount: PublicKey,
   storeAccount: PublicKey,
-  userWallet: PublicKey
+  userWallet: PublicKey,
+  cost: number
 ) => {
   return Token.createTransferInstruction(
     TOKEN_PROGRAM_ID,
@@ -54,7 +55,7 @@ const tixTransferInstruction = (
     storeAccount,
     userWallet,
     [],
-    25 * LAMPORTS_PER_SOL
+    cost * LAMPORTS_PER_SOL
   );
 };
 

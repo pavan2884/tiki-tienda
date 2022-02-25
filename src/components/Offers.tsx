@@ -182,7 +182,11 @@ export default function Offers() {
                       </Typography>
                     </Box>
                   </Box>
-                  {remaining ? <GetOne wallet={wallet58} /> : <Box />}
+                  {remaining ? (
+                    <GetOne wallet={wallet58} cost={cost} />
+                  ) : (
+                    <Box />
+                  )}
                 </CardContent>
               </Card>
             </Grid>

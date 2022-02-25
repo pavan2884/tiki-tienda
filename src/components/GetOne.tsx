@@ -4,7 +4,12 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { processTransaction } from "../transactions";
 import { nftCount } from "../accounts";
 
-export default function GetOne({ wallet }: { wallet: string }) {
+type Props = {
+  wallet: string;
+  cost: number;
+};
+
+export default function GetOne({ wallet, cost }: Props) {
   const { connection } = useConnection();
   const { publicKey: userWallet, sendTransaction } = useWallet();
   const [open, setOpen] = useState(false);
@@ -12,7 +17,13 @@ export default function GetOne({ wallet }: { wallet: string }) {
   const onClick = async () => {
     const totalLeft = await nftCount(wallet);
     if (totalLeft > 0) {
-      await processTransaction(userWallet, wallet, connection, sendTransaction);
+      await processTransaction(
+        userWallet,
+        wallet,
+        cost,
+        connection,
+        sendTransaction
+      );
     } else {
       setOpen(true);
     }

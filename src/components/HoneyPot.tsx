@@ -103,7 +103,7 @@ export default function HoneyPot() {
             </Typography>
           </Box>
           <Box sx={{ width: 280 }}>
-            <GetOne wallet={wallet} />
+            <GetOne wallet={wallet} cost={cost} />
           </Box>
         </Stack>
       </Box>

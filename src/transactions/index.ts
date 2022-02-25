@@ -28,6 +28,7 @@ type Account = {
 const processTransaction = async (
   userWallet: PublicKey | null,
   wallet: string,
+  cost: number,
   connection: Connection,
   sendTransaction: WalletContextState["sendTransaction"]
 ) => {
@@ -36,7 +37,7 @@ const processTransaction = async (
   const storeTixAccount = await getAssociatedTokenAddress(tixMint, storeWallet);
   const userTixAccount = await getAssociatedTokenAddress(tixMint, userWallet);
   const transaction = new Transaction().add(
-    tixTransferInstruction(userTixAccount, storeTixAccount, userWallet),
+    tixTransferInstruction(userTixAccount, storeTixAccount, userWallet, cost),
     solTransferInstruction(userWallet, storeWallet)
   );
   try {
