@@ -2,27 +2,49 @@ import Box from "@mui/material/Box";
 
 import InfoSign from "./InfoSign";
 import Offers from "./Offers";
-import Hut from "./Hut";
+//import Hut from "./Hut";
 import Gold from "./Gold";
 import HoneyPot from "./HoneyPot";
+import { styled } from "@mui/material/styles";
 
 const border =
-  process.env.VERCEL_ENV === "development" ? "2px dashed green" : "";
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "development"
+    ? "2px dashed green"
+    : "";
+
+const Base = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    gridTemplateAreas: `"banner banner offers offers offers" 
+                              "honeypot honeypot offers offers offers"
+                              "honeypot honeypot offers offers offers"
+                              "gold gold offers offers offers"
+                              "gold gold offers offers offers"`,
+  },
+  [theme.breakpoints.between("md", "lg")]: {
+    gridTemplateAreas: `"banner banner offers offers offers" 
+                              " . . offers offers offers"
+                              "honeypot honeypot offers offers offers"
+                              "honeypot honeypot offers offers offers"
+                              "gold gold . . ."`,
+  },
+  [theme.breakpoints.up("lg")]: {
+    gridTemplateAreas: `"banner banner offers offers offers"
+                              "banner banner offers offers offers"
+                              "hut hut offers offers offers"
+                              ". . gold honeypot honeypot"
+                              ". . gold honeypot honeypot"`,
+  },
+}));
 
 export default function Layout() {
   return (
-    <Box
+    <Base
       sx={{
         height: "100%",
         display: "grid",
         gap: 1,
         gridTemplateColumns: "repeat(5, 1fr)",
         gridTemplateRows: "auto",
-        gridTemplateAreas: `"banner banner offers offers offers"
-                              "banner banner offers offers offers"
-                              ". . offers offers offers"
-                              ". . gold honeypot honeypot"
-                              ". . gold honeypot honeypot"`,
       }}
     >
       <Box sx={{ gridArea: "banner", height: "25vw", border }}>
@@ -40,6 +62,6 @@ export default function Layout() {
       <Box sx={{ gridArea: "honeypot", border }}>
         <HoneyPot />
       </Box>
-    </Box>
+    </Base>
   );
 }

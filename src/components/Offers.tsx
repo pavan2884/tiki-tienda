@@ -38,7 +38,7 @@ export default function Offers() {
   const { data } = useOffers();
   console.log("offers", data);
   return (
-    <Box sx={{ height: "100%", m: 6 }}>
+    <Box sx={{ height: "100%", m: "2vw" }}>
       <Typography
         sx={{
           display: "flex",
@@ -48,6 +48,8 @@ export default function Offers() {
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% 100%",
           m: 4,
+          paddingBottom: 1,
+          fontFamily: "Tiki Tropic",
         }}
         gutterBottom
         color="#02f077"
@@ -57,10 +59,10 @@ export default function Offers() {
       >
         FEATURED OFFERS
       </Typography>
-      <Grid container spacing={4}>
+      <Grid container spacing={0}>
         {data?.offers.map(
           ({ wallet58, name, remaining, cost, image }: Offer, index) => (
-            <Grid item key={index} xs={12} sm={6} md={4}>
+            <Grid item key={index} sm={10} md={6} lg={4}>
               <Card
                 elevation={0}
                 sx={{
@@ -73,26 +75,31 @@ export default function Offers() {
                 <CardHeader
                   title={name}
                   sx={{
-                    width: "100%",
+                    width: "90%",
                     height: "60%",
                     backgroundImage: "url(/assets/blank-bar.png)",
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "100% 90%",
-                    alignSelf: "start",
+                    alignSelf: "center",
+                    textOverflow: "clip",
+                    paddingTop: 0.7,
+                    paddingBottom: 2,
+                    marginBottom: -1.1,
                   }}
-                >
-                  <Typography
+                ></CardHeader>
+                <Box sx={{ paddingInline: "3vw" }}>
+                  <CardMedia
                     sx={{
-                      paddingBottom: 1.5,
+                      borderLeftStyle: "solid",
+                      borderRightStyle: "solid",
+                      borderColor: "#1f2022",
                     }}
-                    color="#02f077"
-                    variant="h5"
-                  >
-                    Remaining: {remaining}
-                  </Typography>
-                </CardHeader>
-                <CardMedia component="img" image={image} alt="random" />
-                <CardContent sx={{ flexGrow: 1, m: -2 }}>
+                    component="img"
+                    image={image}
+                    alt="random"
+                  />
+                </Box>
+                <CardContent sx={{ flexGrow: 1, p: 2, paddingTop: 0 }}>
                   <Box>
                     <Box
                       sx={{
@@ -101,7 +108,8 @@ export default function Offers() {
                         backgroundImage: "url(/assets/blank-bar.png)",
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "100% 80%",
-                        alignSelf: "start",
+                        display: "flex",
+                        alignSelf: "center",
                       }}
                     >
                       <Typography
@@ -109,11 +117,20 @@ export default function Offers() {
                           paddingBottom: 1.5,
                           paddingLeft: 1,
                         }}
-                        color="#02f077"
-                        variant="h5"
-                        align="left"
+                        color="#00fff1"
+                        variant="h4"
                       >
-                        Remaining: {remaining}
+                        Remaining:
+                      </Typography>
+                      <Typography
+                        sx={{
+                          paddingBottom: 1.5,
+                          paddingLeft: 1,
+                        }}
+                        color="#ffffff"
+                        variant="h4"
+                      >
+                        {remaining}
                       </Typography>
                     </Box>
                   </Box>
@@ -125,6 +142,8 @@ export default function Offers() {
                         backgroundImage: "url(/assets/featured-cost.png)",
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "100% 100%",
+                        display: "flex",
+                        alignSelf: "left",
                         marginTop: -2,
                       }}
                     >
@@ -136,15 +155,27 @@ export default function Offers() {
                           paddingBottom: 1,
                           paddingLeft: 1,
                         }}
-                        color="#02f077"
-                        variant="h5"
-                        align="left"
+                        color="#00fff1"
+                        variant="h4"
                       >
-                        Cost: {cost}
+                        CoSt:
+                      </Typography>
+                      <Typography
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          paddingTop: 2,
+                          paddingBottom: 1,
+                          paddingLeft: 1,
+                        }}
+                        color="#ffffff"
+                        variant="h4"
+                      >
+                        {cost}
                       </Typography>
                     </Box>
                   </Box>
-                  <GetOne wallet={wallet58} />
+                  {remaining ? <GetOne wallet={wallet58} /> : <Box />}
                 </CardContent>
               </Card>
             </Grid>

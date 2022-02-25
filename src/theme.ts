@@ -7,14 +7,14 @@ const theme = createTheme({
       sm: 600,
       md: 900,
       lg: 1200,
-      xl: 1920, // Changed from 1536
+      xl: 1900, // Changed from 1536
     },
   },
   palette: {
     mode: "dark",
   },
   typography: {
-    fontFamily: '"Beach Hits", Raleway, Arial',
+    fontFamily: '"Beach Hits", Raleway, Arial, "Tiki Tropic"',
   },
   shape: {
     borderRadius: 3,
@@ -25,11 +25,14 @@ const theme = createTheme({
         @font-face {
           font-family: "Beach Hits";
           src: local("Beach Hits"),
-            url(./fonts/Beach-Hits.ttf) format("truetype"),
-            url(./fonts/Tiki-Tropic.ttf) format("truetype");
+          url(./fonts/Beach-Hits.ttf) format("truetype"),
+          url(./fonts/Tiki-Tropic.ttf) format("truetype");
         }
         body {
           background-color: #ffb272
+        }
+        .MuiCardHeader-title {
+          fontSize: "22px"        
         }
       `,
     },

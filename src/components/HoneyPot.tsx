@@ -32,6 +32,7 @@ export default function HoneyPot() {
     } else if (isError) {
       return <div>Error</div>;
     }
+    return <div />;
   } else {
     const { wallet, cost } = data.data;
     return (
@@ -39,11 +40,11 @@ export default function HoneyPot() {
         <Stack spacing={2}>
           <Box
             sx={{
-              width: "100%",
-              height: "80%",
-              backgroundImage: "url(/assets/blank-bar.png)",
+              width: "70%",
+              height: "100%",
+              backgroundImage: "url(/assets/honeypot-title.png)",
               backgroundRepeat: "no-repeat",
-              backgroundSize: "100% 80%",
+              backgroundSize: "100% 100%",
               alignSelf: "start",
             }}
           >
@@ -61,8 +62,8 @@ export default function HoneyPot() {
           </Box>
           <Box
             sx={{
-              width: "100%",
-              height: "100%",
+              width: "70%",
+              height: "80%",
               backgroundImage: "url(/assets/featured-cost.png)",
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 100%",
@@ -81,7 +82,7 @@ export default function HoneyPot() {
               variant="h5"
               align="left"
             >
-              Cost: {cost}
+              CoSt: {cost}
             </Typography>
           </Box>
           <GetOne wallet={wallet} />
@@ -89,5 +90,4 @@ export default function HoneyPot() {
       </Box>
     );
   }
-  return <div />;
 }
