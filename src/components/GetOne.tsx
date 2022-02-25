@@ -1,13 +1,24 @@
-import { Box, Button, Typography } from "@mui/material";
+import { useState } from "react";
+import { Alert, Box, Button, Snackbar, Typography } from "@mui/material";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { processTransaction } from "../transactions";
+import { nftCount } from "../accounts";
 
 export default function GetOne({ wallet }: { wallet: string }) {
   const { connection } = useConnection();
   const { publicKey: userWallet, sendTransaction } = useWallet();
+  const [open, setOpen] = useState(false);
 
-  const onClick = async () =>
-    await processTransaction(userWallet, wallet, connection, sendTransaction);
+  const onClick = async () => {
+    const totalLeft = await nftCount(wallet);
+    if (totalLeft > 0) {
+      await processTransaction(userWallet, wallet, connection, sendTransaction);
+    } else {
+      setOpen(true);
+    }
+  };
+
+  const handleClose = () => setOpen(false);
 
   return (
     <Box>
@@ -33,6 +44,11 @@ export default function GetOne({ wallet }: { wallet: string }) {
           Get One!
         </Typography>
       </Button>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          No NFTs left!!!!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
