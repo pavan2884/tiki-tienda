@@ -33,13 +33,12 @@ export default function HoneyPot() {
       return <div>Error</div>;
     }
   } else {
-    //console.log(data.data);
-    const { wallet, price } = data.data;
+    const { wallet, cost } = data.data;
     return (
       <Box sx={{ height: "100%", p: 14 }}>
         <Stack spacing={2}>
           <Button variant="contained">Turnt Up Honeypot</Button>
-          <Button variant="contained">Cost: {price}</Button>
+          <Button variant="contained">Cost: {cost}</Button>
           <GetOne wallet={wallet} />
         </Stack>
       </Box>
