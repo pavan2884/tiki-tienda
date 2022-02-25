@@ -44,9 +44,14 @@ export default function GetOne({ wallet }: { wallet: string }) {
           Get One!
         </Typography>
       </Button>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          No NFTs left!!!!
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          Sold out!!!
         </Alert>
       </Snackbar>
     </Box>

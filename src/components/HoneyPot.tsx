@@ -1,4 +1,4 @@
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import useSWR from "swr";
 import GetOne from "./GetOne";
@@ -37,8 +37,53 @@ export default function HoneyPot() {
     return (
       <Box sx={{ height: "100%", p: 14 }}>
         <Stack spacing={2}>
-          <Button variant="contained">Turnt Up Honeypot</Button>
-          <Button variant="contained">Cost: {cost}</Button>
+          <Box
+            sx={{
+              width: "100%",
+              height: "80%",
+              backgroundImage: "url(/assets/blank-bar.png)",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "100% 80%",
+              alignSelf: "start",
+            }}
+          >
+            <Typography
+              sx={{
+                paddingBottom: 1.5,
+                paddingLeft: 1,
+              }}
+              color="#02f077"
+              variant="h5"
+              align="left"
+            >
+              Turnt Up Honeypot
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              backgroundImage: "url(/assets/featured-cost.png)",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "100% 100%",
+              marginTop: -2,
+            }}
+          >
+            <Typography
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                paddingTop: 2,
+                paddingBottom: 1,
+                paddingLeft: 1,
+              }}
+              color="#02f077"
+              variant="h5"
+              align="left"
+            >
+              Cost: {cost}
+            </Typography>
+          </Box>
           <GetOne wallet={wallet} />
         </Stack>
       </Box>
