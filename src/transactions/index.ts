@@ -10,7 +10,7 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import axios from "axios";
-import { keyMap } from "../config";
+import { connection, keyMap } from "../config";
 import {
   formatPrivateKeyArray,
   getAssociatedTokenAddress,
@@ -66,7 +66,6 @@ const getKeypair = (wallet58: string) => {
 };
 
 const transferNft = async (
-  connection: Connection,
   nftToTransfer: Account,
   userWalletB58: string,
   storeWalletB58: string
