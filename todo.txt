@@ -5,21 +5,24 @@ Return tix and sol on failed transaction
 Update UI based on errors
 
 
->>Confirm alert for GetOne before actual purchase!!!
+Nate:
 
-Favicon & Window title (in tab)
+!!! Confirm alert for GetOne before actual purchase
+
+ mui > components > override  https://mui.com/customization/theme-components/#global-style-overrides
+
+Infosign and features offers fonts fixes working correctly?
+
+min font size for infosign
 
 ellipses when featured offer collection name is too long
 
-Infosign and features offers fonts fixes (cant write in the beach hits font for infosign)
-
-Honeypot title modal when clicking info button?
-
-min font size for infosign
+check that Favicon & Window title (in tab) is working
 
 _______
    Features
 
-Whitelist for the collections which are being shown, getOne only  grabs from these
+!!!  Whitelist for the collections which are being shown, getOne only  grabs from these
 
 Every so often, send off anything outside of the whitelist to another wallet for later processing
+
