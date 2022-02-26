@@ -49,12 +49,12 @@ export default function HoneyPot() {
       }
     };
     return (
-      <Box sx={{ height: "100%", paddingLeft: 6, marginTop: -11 }}>
+      <Box sx={{ height: "100%", paddingLeft: 6, marginTop: -3 }}>
         <Stack spacing={0.5}>
           <Box>
             <Box
               sx={{
-                width: 300,
+                width: 330,
                 height: "100%",
                 backgroundImage: "url(/assets/honeypot-title.png)",
                 backgroundRepeat: "no-repeat",
@@ -67,8 +67,8 @@ export default function HoneyPot() {
               <Typography
                 sx={{
                   fontSize: 25,
-                  paddingTop: 1,
-                  paddingBottom: 2,
+                  paddingTop: 1.5,
+                  paddingBottom: 2.5,
                   paddingLeft: 2,
                   paddingRight: 7,
                   marginBottom: -3.5,
@@ -82,7 +82,7 @@ export default function HoneyPot() {
           </Box>
           <Box
             sx={{
-              width: 380,
+              width: 420,
               height: "100%",
               backgroundImage: "url(/assets/honeypot-cost.png)",
               backgroundRepeat: "no-repeat",
@@ -114,7 +114,7 @@ export default function HoneyPot() {
               {cost}
             </Typography>
           </Box>
-          <Box sx={{ width: 280, paddingBottom: 2 }}>
+          <Box sx={{ width: 330, paddingBottom: 2 }}>
             <GetOne wallet={wallet} cost={cost} />
           </Box>
         </Stack>

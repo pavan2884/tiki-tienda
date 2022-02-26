@@ -62,7 +62,7 @@ export default function Offers() {
       >
         FEATURED OFFERS
       </Typography>
-      <Grid container spacing={0}>
+      <Grid sx={{ justifyContent: "center" }} container spacing={0}>
         {data?.offers.map(
           ({ wallet58, name, remaining, cost, image }: Offer, index) => (
             <Grid item key={index} sm={10} md={6} lg={4}>
@@ -89,7 +89,7 @@ export default function Offers() {
                     paddingBottom: 1,
                     marginBottom: -0.4,
                   }}
-                ></CardHeader>
+                />
                 <Box sx={{ paddingInline: 7 }}>
                   <CardMedia
                     sx={{

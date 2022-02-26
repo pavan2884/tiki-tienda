@@ -41,8 +41,8 @@ export default function InfoSign() {
             fontFamily: "Sans Serif",
             marginLeft: ".5vw",
             marginRight: "-.5vw",
-            marginTop: "1.1vw",
-            marginBottom: "2vw",
+            marginTop: ".5vw",
+            marginBottom: "2.5vw",
           }}
           color="black"
         >

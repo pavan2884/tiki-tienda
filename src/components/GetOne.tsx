@@ -47,7 +47,7 @@ export default function GetOne({ wallet, cost }: Props) {
         >
           <Typography
             sx={{
-              paddingBottom: 2,
+              paddingBottom: 2.5,
             }}
             color="#9a9c9c"
             variant="h4"
@@ -59,7 +59,7 @@ export default function GetOne({ wallet, cost }: Props) {
       ) : (
         <Button
           sx={{
-            width: 300,
+            width: "100%",
             height: "100%",
             overflow: "visible",
             backgroundImage: "url(/assets/blank-bar.png)",
@@ -70,7 +70,7 @@ export default function GetOne({ wallet, cost }: Props) {
         >
           <Typography
             sx={{
-              paddingBottom: 2,
+              paddingBottom: 3,
             }}
             color="#02f077"
             variant="h3"
