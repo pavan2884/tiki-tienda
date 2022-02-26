@@ -14,7 +14,7 @@ const theme = createTheme({
     mode: "dark",
   },
   typography: {
-    fontFamily: '"Beach Hits", Raleway, Arial, "Tiki Tropic"',
+    fontFamily: '"Beach Hits", Tiki Tropic, Raleway, Arial',
   },
   shape: {
     borderRadius: 3,
@@ -25,17 +25,15 @@ const theme = createTheme({
         @font-face {
           font-family: "Beach Hits";
           src: local("Beach Hits"),
-          url(./fonts/Beach-Hits.ttf) format("truetype"),
+          url(./fonts/Beach-Hits.ttf) format("truetype");
+        }
+        @font-face {
+          font-family: "Tiki Tropic";
+          src: local("Tiki Tropic"),
           url(./fonts/Tiki-Tropic.ttf) format("truetype");
         }
         body {
           background-color: #ffb272
-        }
-        title {
-          font-size: "55px"
-        }
-        media {
-          background-color: #ffffff
         }
       `,
     },
