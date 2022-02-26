@@ -1,3 +1,10 @@
+Check for available TIX before sale
+
+Error handling in getone api and corresponding UI
+Return tix and sol on failed transaction
+Update UI based on errors
+
+
 >>Confirm alert for GetOne before actual purchase!!!
 
 Favicon & Window title (in tab)
