@@ -13,14 +13,15 @@ export default async function handler(
   res: NextApiResponse
 ) {
   console.log("api/getone", req.body);
-  const { userWalletB58, storeWalletB58 }: Data = req.body;
+  const { userWalletB58, storeWalletB58, signature }: Data = req.body;
 
   try {
     const nftToTransfer = await pickAnNft(storeWalletB58);
     const result = await transferNft(
       nftToTransfer,
       userWalletB58,
-      storeWalletB58
+      storeWalletB58,
+      signature,
     );
     return res.status(200).json({ signature: result });
   } catch (error) {

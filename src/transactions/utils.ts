@@ -17,6 +17,22 @@ const getAssociatedTokenAddress = async (
   );
 };
 
+const createAssociatedTokenAccountInstruction = (
+  mint: PublicKey,
+  associatedAccount: PublicKey,
+  owner: PublicKey,
+  payer: PublicKey
+) => {
+  return Token.createAssociatedTokenAccountInstruction(
+    ASSOCIATED_TOKEN_PROGRAM_ID,
+    TOKEN_PROGRAM_ID,
+    mint,
+    associatedAccount,
+    owner,
+    payer
+  )
+};
+
 const solTransferInstruction = (
   userWallet: PublicKey,
   storeWallet: PublicKey
@@ -80,6 +96,7 @@ const formatPrivateKeyArray = (key: string) => {
 };
 
 export {
+  createAssociatedTokenAccountInstruction,
   getAssociatedTokenAddress,
   solTransferInstruction,
   tixTransferInstruction,

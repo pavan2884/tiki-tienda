@@ -8,10 +8,12 @@ import {
   PublicKey,
   sendAndConfirmTransaction,
   Transaction,
+  TransactionInstruction,
 } from "@solana/web3.js";
 import axios from "axios";
 import { connection, keyMap } from "../config";
 import {
+  createAssociatedTokenAccountInstruction,
   formatPrivateKeyArray,
   getAssociatedTokenAddress,
   loadWallets,
@@ -42,8 +44,8 @@ const processTransaction = async (
   );
   try {
     const signature = await sendTransaction(transaction, connection);
-    await connection.confirmTransaction(signature, "processed");
-    console.log("Payment done");
+    const { context, value } = await connection.confirmTransaction(signature, "processed");
+    console.log("Confirmed transaction for payment", signature, context, value);
     const result = await axios.post("/api/getone", {
       userWalletB58: userWallet.toBase58(),
       storeWalletB58: storeWallet.toBase58(),
@@ -66,35 +68,52 @@ const getKeypair = (wallet58: string) => {
   return storeWalletKeyPair;
 };
 
-const transferNft = async (
+const nftTransaction = async (
   nftToTransfer: Account,
   userWalletB58: string,
   storeWalletB58: string
-): Promise<string> => {
-  console.log("Nft picked", nftToTransfer.account.data.parsed.info.mint);
+) => {
   const nftMintPk = new PublicKey(nftToTransfer.account.data.parsed.info.mint);
-
   const userWallet = new PublicKey(userWalletB58);
   const userNftAccount = await getAssociatedTokenAddress(nftMintPk, userWallet);
-
   const storeWallet = new PublicKey(storeWalletB58);
   const storeNftAccount = await getAssociatedTokenAddress(
     nftMintPk,
     storeWallet
   );
+  const instructions: TransactionInstruction[] = [];
+  const receiverAccount = await connection.getAccountInfo(storeNftAccount);
+  if (!receiverAccount) {
+    instructions.push(
+      createAssociatedTokenAccountInstruction(
+        nftMintPk, storeNftAccount, userWallet, storeWallet
+      )
+    )
+  }
+  instructions.push(nftTransferInstruction(storeNftAccount, userNftAccount, storeWallet));
+  return new Transaction().add(...instructions);
+}
 
-  const transaction = new Transaction().add(
-    nftTransferInstruction(storeNftAccount, userNftAccount, storeWallet)
-  );
-
+const transferNft = async (
+  nftToTransfer: Account,
+  userWalletB58: string,
+  storeWalletB58: string,
+  signature: string
+): Promise<string> => {
+  console.log("Nft picked", nftToTransfer.account.data.parsed.info.mint);
+  // const paymentTransaction = await connection.getTransaction(signature, { commitment: "confirmed" });
+  // console.log("Payment transaction", paymentTransaction, signature);
+  const transaction = await nftTransaction(nftToTransfer, userWalletB58, storeWalletB58);
   const storeWalletKeyPair = getKeypair(storeWalletB58);
-
   try {
-    const signature = await sendAndConfirmTransaction(connection, transaction, [
+    const newSignature = await sendAndConfirmTransaction(connection, transaction, [
       storeWalletKeyPair,
-    ]);
-    console.log("Signature", signature);
-    return signature;
+    ], {
+      commitment: "processed",
+      maxRetries: 3
+    });
+    console.log("Signature nft transfer", newSignature);
+    return newSignature;
   } catch (error) {
     console.log("Nft send failed!!!!", error);
   }
