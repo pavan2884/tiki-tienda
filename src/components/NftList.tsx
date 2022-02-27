@@ -30,23 +30,24 @@ const getNftItems = (nfts: any[]) => {
   });
 };
 
-const NftList = React.forwardRef(({ walletB58 }: Props, ref) => {
+const WrappedNftList = React.forwardRef(function NftList(
+  { walletB58 }: Props,
+  ref
+) {
   const nfts: any[] = [];
   // await getNftAccounts(walletPk);
   const items = getNftItems(nfts);
   return (
-    <>
-      <Paper sx={Style}>
-        <Grid container spacing={2}>
-          {items.map((tiki, index) => (
-            <Grid item xs={12} md={6} lg={6} xl={4} key={index}>
-              <TikiItem tiki={tiki} />
-            </Grid>
-          ))}
-        </Grid>
-      </Paper>
-    </>
+    <Paper sx={Style}>
+      <Grid container spacing={2}>
+        {items.map((tiki, index) => (
+          <Grid item xs={12} md={6} lg={6} xl={4} key={index}>
+            <TikiItem tiki={tiki} />
+          </Grid>
+        ))}
+      </Grid>
+    </Paper>
   );
 });
 
-export default NftList;
+export default WrappedNftList;
