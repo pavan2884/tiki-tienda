@@ -8,11 +8,11 @@ import { processTransaction } from "../transactions";
 import { PublicKey } from "@solana/web3.js";
 
 type Props = {
-  wallet: string;
+  walletB58: string;
   cost: number;
 };
 
-export default function GetOne({ wallet, cost }: Props) {
+export default function GetOne({ walletB58, cost }: Props) {
   const { connection } = useConnection();
   const { publicKey: userWalletPk, sendTransaction } = useWallet();
   const [open, setOpen] = useState(false);
@@ -20,7 +20,7 @@ export default function GetOne({ wallet, cost }: Props) {
 
   const onClick = async () => {
     if (!userWalletPk) throw new WalletNotConnectedError();
-    const storeWalletPk = new PublicKey(wallet);
+    const storeWalletPk = new PublicKey(walletB58);
     const tixLeft = await tixCount(userWalletPk);
     const nftLeft = await nftCount(storeWalletPk);
     if (tixLeft < cost) {
@@ -44,7 +44,7 @@ export default function GetOne({ wallet, cost }: Props) {
 
   return (
     <Box>
-      {wallet === "false" ? (
+      {walletB58 === "false" ? (
         <Button
           sx={{
             width: "100%",

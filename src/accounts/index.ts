@@ -46,4 +46,4 @@ const tixCount = async (userWalletPk: PublicKey) => {
   return !account ? 0 : account.account.data.parsed.info.tokenAmount.uiAmount;
 };
 
-export { pickAnNft, nftCount, tixCount, getTixMintPk };
+export { getNftAccounts, pickAnNft, nftCount, tixCount, getTixMintPk };

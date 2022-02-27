@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Modal, Stack, Typography } from "@mui/material";
+import { PublicKey } from "@solana/web3.js";
 import axios from "axios";
+import { useState } from "react";
 import useSWR from "swr";
-import GetOne from "./GetOne";
 import { nftCount } from "../accounts";
+import GetOne from "./GetOne";
+import NftList from "./NftList";
 
 const fetcher = async (url: string) => {
   try {
@@ -38,16 +40,19 @@ export default function HoneyPot() {
     }
     return <div />;
   } else {
-    const { wallet, cost } = data.data;
+    const { wallet: walletB58, cost } = data.data;
 
     const displayHoneyPot = async () => {
-      const totalLeft = await nftCount(wallet);
+      console.log("displayHoneyPot");
+      const totalLeft = await nftCount(new PublicKey(walletB58));
       if (totalLeft > 0) {
+        setOpen(true);
         //TODO !!! implement preview of honeypot similar to village
       } else {
-        setOpen(true);
+        // setOpen(true);
       }
     };
+    const handleClose = () => setOpen(false);
     return (
       <Box sx={{ height: "100%", paddingLeft: 6, marginTop: -3 }}>
         <Stack spacing={0.5}>
@@ -115,9 +120,12 @@ export default function HoneyPot() {
             </Typography>
           </Box>
           <Box sx={{ width: 330, paddingBottom: 2 }}>
-            <GetOne wallet={wallet} cost={cost} />
+            <GetOne walletB58={walletB58} cost={cost} />
           </Box>
         </Stack>
+        <Modal open={open} onClose={handleClose}>
+          <NftList walletB58={walletB58} />
+        </Modal>
       </Box>
     );
   }
