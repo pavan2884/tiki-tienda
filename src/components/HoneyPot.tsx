@@ -41,15 +41,10 @@ export default function HoneyPot() {
     return <div />;
   } else {
     const { wallet: walletB58, cost } = data.data;
-
     const displayHoneyPot = async () => {
-      console.log("displayHoneyPot");
       const totalLeft = await nftCount(new PublicKey(walletB58));
       if (totalLeft > 0) {
         setOpen(true);
-        //TODO !!! implement preview of honeypot similar to village
-      } else {
-        // setOpen(true);
       }
     };
     const handleClose = () => setOpen(false);

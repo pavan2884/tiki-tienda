@@ -1,8 +1,6 @@
 import { Grid, Paper } from "@mui/material";
-import { PublicKey } from "@solana/web3.js";
-import React from "react";
-
-import { getNftAccounts } from "../accounts";
+import React, { useEffect, useState } from "react";
+import { getData } from "../accounts/tokenAccounts";
 import TikiItem from "./Tiki";
 
 const Style = {
@@ -21,22 +19,23 @@ type Props = {
   walletB58: string;
 };
 
-const getNftItems = (nfts: any[]) => {
-  return nfts.map((nft) => {
-    return {
-      name: "name1",
-      image: "image1",
-    };
-  });
+type Data = {
+  items: any[];
 };
 
 const WrappedNftList = React.forwardRef(function NftList(
   { walletB58 }: Props,
-  ref
+  _ref
 ) {
-  const nfts: any[] = [];
-  // await getNftAccounts(walletPk);
-  const items = getNftItems(nfts);
+  const [data, setData] = useState<Data>({ items: [] });
+  useEffect(() => {
+    getData(walletB58).then((data) => {
+      setData(data);
+    });
+    return () => {};
+  }, [walletB58]);
+
+  const { items } = data;
   return (
     <Paper sx={Style}>
       <Grid container spacing={2}>

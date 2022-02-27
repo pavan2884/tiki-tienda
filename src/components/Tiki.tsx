@@ -1,10 +1,14 @@
-import { Box, Divider, Link, Stack, Theme, Typography } from "@mui/material";
+import { Box, Divider, Stack, Theme, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Image from "next/image";
 
 type NFT = {
   image: string;
   name: string;
+  description: string;
+  collection: {
+    name: string;
+    family: string;
+  };
 };
 
 type Props = {
@@ -12,15 +16,14 @@ type Props = {
 };
 
 const Tiki = ({ tiki }: Props) => {
-  const { image, name } = tiki;
-  console.log(tiki);
+  const { image, name, collection } = tiki;
   const downlg = useMediaQuery((theme: Theme) => theme.breakpoints.down("lg"));
   const upxl = useMediaQuery((theme: Theme) => theme.breakpoints.up("xl"));
   const matches = downlg || upxl;
 
   return (
     <Box>
-      <Image src={image} alt="" />
+      <img src={image} alt="" width="100%" />
       <Stack
         direction="row"
         divider={<Divider orientation="vertical" flexItem />}
@@ -32,7 +35,7 @@ const Tiki = ({ tiki }: Props) => {
           color="white"
           variant={matches ? "h6" : "subtitle1"}
         >
-          {name}
+          {name + " (" + collection.family + ")"}
         </Typography>
       </Stack>
     </Box>
