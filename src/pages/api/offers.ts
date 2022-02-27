@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { offers } from "../../config";
 import { nftCount } from "../../accounts";
+import { PublicKey } from "@solana/web3.js";
 
 type Offer = {
   wallet58: string;
@@ -20,7 +21,7 @@ export default async function handler(
 ) {
   try {
     offers.forEach(async (offer) => {
-      offer.remaining = await nftCount(offer.wallet58);
+      offer.remaining = await nftCount(new PublicKey(offer.wallet58));
     });
     res.status(200).json({
       offers,

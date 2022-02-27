@@ -1,3 +1,4 @@
+import { PublicKey } from "@solana/web3.js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { pickAnNft } from "../../accounts";
 import { transferNft } from "../../transactions";
@@ -14,14 +15,16 @@ export default async function handler(
 ) {
   console.log("api/getone", req.body);
   const { userWalletB58, storeWalletB58, signature }: Data = req.body;
+  const userWalletPk = new PublicKey(userWalletB58);
+  const storeWalletPk = new PublicKey(storeWalletB58);
 
   try {
-    const nftToTransfer = await pickAnNft(storeWalletB58);
+    const nftToTransfer = await pickAnNft(storeWalletPk);
     const result = await transferNft(
       nftToTransfer,
-      userWalletB58,
-      storeWalletB58,
-      signature,
+      userWalletPk,
+      storeWalletPk,
+      signature
     );
     return res.status(200).json({ signature: result });
   } catch (error) {

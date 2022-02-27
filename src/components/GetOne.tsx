@@ -1,8 +1,11 @@
-import { useState } from "react";
 import { Alert, Box, Button, Snackbar, Typography } from "@mui/material";
+import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useState } from "react";
+import { nftCount, tixCount } from "../accounts";
 import { processTransaction } from "../transactions";
-import { nftCount } from "../accounts";
+
+import { PublicKey } from "@solana/web3.js";
 
 type Props = {
   wallet: string;
@@ -11,21 +14,29 @@ type Props = {
 
 export default function GetOne({ wallet, cost }: Props) {
   const { connection } = useConnection();
-  const { publicKey: userWallet, sendTransaction } = useWallet();
+  const { publicKey: userWalletPk, sendTransaction } = useWallet();
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
 
   const onClick = async () => {
-    const totalLeft = await nftCount(wallet);
-    if (totalLeft > 0) {
+    if (!userWalletPk) throw new WalletNotConnectedError();
+    const storeWalletPk = new PublicKey(wallet);
+    const tixLeft = await tixCount(userWalletPk);
+    const nftLeft = await nftCount(storeWalletPk);
+    if (tixLeft < cost) {
+      setError("Not enough Tix!!!");
+      setOpen(true);
+    } else if (nftLeft <= 0) {
+      setError("Sold Out!!!");
+      setOpen(true);
+    } else {
       await processTransaction(
-        userWallet,
-        wallet,
+        userWalletPk,
+        storeWalletPk,
         cost,
         connection,
         sendTransaction
       );
-    } else {
-      setOpen(true);
     }
   };
 
@@ -87,7 +98,7 @@ export default function GetOne({ wallet, cost }: Props) {
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          Sold out!!!
+          {error}
         </Alert>
       </Snackbar>
     </Box>

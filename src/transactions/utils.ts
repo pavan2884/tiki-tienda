@@ -30,7 +30,7 @@ const createAssociatedTokenAccountInstruction = (
     associatedAccount,
     owner,
     payer
-  )
+  );
 };
 
 const solTransferInstruction = (
@@ -75,18 +75,6 @@ const tixTransferInstruction = (
   );
 };
 
-const loadWallets = (wallet: string) => {
-  const storeWalletAddress = wallet;
-  const tixMintAddress = process.env.NEXT_PUBLIC_TIX_MINT_ADDRESS;
-  if (!tixMintAddress)
-    throw new Error("Environment not set propertly, missing tix mint address");
-
-  const storeWallet = new PublicKey(storeWalletAddress);
-  const tixMint = new PublicKey(tixMintAddress);
-
-  return { storeWallet, tixMint };
-};
-
 // cannot save the proper array in env vars
 const formatPrivateKeyArray = (key: string) => {
   // Removes brackets to make processing correct
@@ -101,6 +89,5 @@ export {
   solTransferInstruction,
   tixTransferInstruction,
   nftTransferInstruction,
-  loadWallets,
   formatPrivateKeyArray,
 };
