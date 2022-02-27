@@ -61,6 +61,7 @@ export default function HoneyPot() {
                 backgroundSize: "100% 100%",
                 alignSelf: "start",
                 cursor: "default",
+                marginBottom: -4,
               }}
               onClick={displayHoneyPot}
             >
@@ -69,9 +70,8 @@ export default function HoneyPot() {
                   fontSize: 25,
                   paddingTop: 1.5,
                   paddingBottom: 2.5,
-                  paddingLeft: 2,
+                  paddingLeft: 3,
                   paddingRight: 7,
-                  marginBottom: -3.5,
                 }}
                 color="#ffffff"
                 align="left"

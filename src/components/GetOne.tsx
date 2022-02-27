@@ -47,7 +47,7 @@ export default function GetOne({ wallet, cost }: Props) {
         >
           <Typography
             sx={{
-              paddingBottom: 2.5,
+              paddingBottom: 3,
             }}
             color="#9a9c9c"
             variant="h4"
@@ -87,7 +87,7 @@ export default function GetOne({ wallet, cost }: Props) {
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          Sold out!!!
+          Sold out!
         </Alert>
       </Snackbar>
     </Box>

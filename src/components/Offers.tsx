@@ -78,15 +78,15 @@ export default function Offers() {
                 <CardHeader
                   title={name}
                   sx={{
-                    width: "77%",
-                    height: "60%",
+                    width: "80%",
+                    height: "100%",
                     backgroundImage: "url(/assets/blank-bar.png)",
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "100% 100%",
                     alignSelf: "center",
                     textOverflow: "ellipse",
                     paddingTop: 0.7,
-                    paddingBottom: 1,
+                    paddingBottom: 1.1,
                     marginBottom: -0.4,
                   }}
                 />
