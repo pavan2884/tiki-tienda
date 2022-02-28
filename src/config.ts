@@ -14,26 +14,27 @@ const honeypot = {
 const offers = [
   {
     wallet58: process.env.OFFER_1_WALLET_ADDRESS || "",
-    name: "Sovana",
     cost: 800,
     remaining: 0,
-    image:
-      "https://dl.airtable.com/.attachmentThumbnails/132a746ad38e113c7880c7b66f319ecd/e58d73b6",
-  },
-  {
-    wallet58: process.env.OFFER_2_WALLET_ADDRESS || "",
     name: "Famous Fox Federation",
-    cost: 575,
-    remaining: 0,
     image:
       "https://ipfs.io/ipfs/Qmetu9eyf7jxE9cNV9MYMWborQBGHqurt1MvD2LjwDcumy",
   },
   {
+    wallet58: process.env.OFFER_2_WALLET_ADDRESS || "",
+    cost: 575,
+    remaining: 0,
+    name: "Xin Dragons",
+    image:
+      "https://dl.airtable.com/.attachmentThumbnails/b93f545349395105d22bfc113d388fd4/e6968838",
+  },
+  {
     wallet58: process.env.OFFER_3_WALLET_ADDRESS || "",
-    name: "DeGods",
     cost: 175,
     remaining: 0,
-    image: "https://i.imgur.com/2kWcR3L.jpeg",
+    name: "Sovana",
+    image:
+      "https://dl.airtable.com/.attachmentThumbnails/132a746ad38e113c7880c7b66f319ecd/e58d73b6",
   },
 ];
 

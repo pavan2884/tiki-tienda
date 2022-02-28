@@ -1,24 +1,18 @@
-
 Update config for offers
     Name
     Image
-
-Offer 3 swap -
-I want to swap the Pesky Penguin NFT in wallet 3 for 3 Sovana NFTs (which are currently in the treasure chest)
-Update offer3 cost to 175
 
 How to handle/cleanup aux accounts on store wallets??? - Manual for now, need to
     run system-gc on the wallet
         spl-token --config wallets/honeypot/prod-config.yml gc
 
 Enable back confirmation for transaction from user wallet
+    There is an edge case here that we may have to handle manually through customer support.
+    The payment from user wallet to store wallet is sent but the confirmation call times out. In that case, we are not transferring the NFT.
 
 Error handling in getone api and corresponding UI
-Return tix and sol on failed transaction
-Update UI based on errors
-
-There is an edge case here that we may have to handle manually through customer support.
-The payment from user wallet to store wallet is sent but the confirmation call times out. In that case, we are not transferring the NFT.
+    Return tix and sol on failed transaction
+    Update UI based on errors
 
 
 
