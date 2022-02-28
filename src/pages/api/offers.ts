@@ -20,9 +20,11 @@ export default async function handler(
   res: NextApiResponse<Data | Error>
 ) {
   try {
-    offers.forEach(async (offer) => {
-      offer.remaining = await nftCount(new PublicKey(offer.wallet58));
-    });
+    await Promise.all(
+      offers.map(async (offer) => {
+        offer.remaining = await nftCount(new PublicKey(offer.wallet58));
+      })
+    );
     res.status(200).json({
       offers,
     });

@@ -21,6 +21,9 @@ const Tiki = ({ tiki }: Props) => {
   const upxl = useMediaQuery((theme: Theme) => theme.breakpoints.up("xl"));
   const matches = downlg || upxl;
 
+  const title =
+    name + (collection?.family ? " (" + collection.family + ")" : "");
+
   return (
     <Box>
       <img src={image} alt="" width="100%" />
@@ -35,7 +38,7 @@ const Tiki = ({ tiki }: Props) => {
           color="white"
           variant={matches ? "h6" : "subtitle1"}
         >
-          {name + " (" + collection.family + ")"}
+          {title}
         </Typography>
       </Stack>
     </Box>
