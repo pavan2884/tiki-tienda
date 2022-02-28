@@ -67,7 +67,7 @@ export default function HoneyPot() {
             >
               <Typography
                 sx={{
-                  fontSize: 25,
+                  fontSize: 26,
                   paddingTop: 1.5,
                   paddingBottom: 2.5,
                   paddingLeft: 3,

@@ -53,12 +53,7 @@ const theme = createTheme({
     },
     MuiCardHeader: {
       styleOverrides: {
-        title: {
-          textOverflow: "ellipse",
-        },
-        root: {
-          width: "90%",
-        },
+        title: {},
       },
     },
   },

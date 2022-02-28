@@ -78,22 +78,27 @@ export default function Offers() {
                   backgroundColor: "rgb(0, 0, 0, 0.0)",
                 }}
               >
-                <CardHeader
-                  title={name}
+                <Box
                   sx={{
-                    width: "90%",
-                    height: "100%",
-                    backgroundImage: "url(/assets/blank-bar.png)",
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "100% 100%",
-                    alignSelf: "center",
-                    marginLeft: "2vw",
-                    marginRight: "2vw",
-                    paddingTop: 0.7,
-                    paddingBottom: 1.1,
+                    paddingLeft: 4.7,
+                    paddingRight: 4.7,
                     marginBottom: -0.4,
                   }}
-                />
+                >
+                  <CardHeader
+                    title={name}
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      backgroundImage: "url(/assets/blank-bar.png)",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "100% 100%",
+                      alignSelf: "center",
+                      paddingTop: 0.7,
+                      paddingBottom: 1.1,
+                    }}
+                  />
+                </Box>
                 <Box sx={{ paddingInline: 7 }}>
                   <CardMedia
                     sx={{
