@@ -109,9 +109,15 @@ export default function GetOne({ walletB58, cost }: Props) {
         autoHideDuration={5000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          {alertMsg}
-        </Alert>
+        {alertMsg === "Transaction Complete ✅" ? (
+          <Alert onClose={handleClose} sx={{ width: "100%" }}>
+            {alertMsg}
+          </Alert>
+        ) : (
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            {alertMsg}
+          </Alert>
+        )}
       </Snackbar>
     </Box>
   );
