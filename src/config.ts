@@ -4,6 +4,8 @@ const network =
   process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.devnet.solana.com";
 const connection = new Connection(network, "confirmed");
 
+const storeCost = 0.05;
+
 const honeypot = {
   wallet: process.env.HONEYPOT_WALLET_ADDRESS,
   cost: 100,
@@ -50,4 +52,4 @@ const keyMap = (wallet58: string) => {
   }
 };
 
-export { connection, honeypot, offers, keyMap };
+export { connection, honeypot, offers, keyMap, storeCost };

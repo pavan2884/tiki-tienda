@@ -11,7 +11,7 @@ import {
 } from "@solana/web3.js";
 import axios from "axios";
 import { getTixMintPk } from "../accounts";
-import { connection, keyMap } from "../config";
+import { connection, keyMap, storeCost } from "../config";
 import {
   createAssociatedTokenAccountInstruction,
   formatPrivateKeyArray,
@@ -45,7 +45,7 @@ const processTransaction = async (
   );
   const transaction = new Transaction().add(
     tixTransferInstruction(userTixAccount, storeTixAccount, userWalletPk, cost),
-    solTransferInstruction(userWalletPk, storeWalletPk)
+    solTransferInstruction(userWalletPk, storeWalletPk, storeCost)
   );
   try {
     const signature = await sendTransaction(transaction, connection);
@@ -58,6 +58,7 @@ const processTransaction = async (
       signature,
     });
     console.log("Transaction done", result, signature);
+    return result;
   } catch (error) {
     console.log("Transaction send/confirm failed", error);
   }
