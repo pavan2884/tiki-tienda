@@ -1,31 +1,42 @@
-import { useState } from "react";
 import { Alert, Box, Button, Snackbar, Typography } from "@mui/material";
+import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useState } from "react";
+import { nftCount, tixCount } from "../accounts";
 import { processTransaction } from "../transactions";
-import { nftCount } from "../accounts";
+
+import { PublicKey } from "@solana/web3.js";
 
 type Props = {
-  wallet: string;
+  walletB58: string;
   cost: number;
 };
 
-export default function GetOne({ wallet, cost }: Props) {
+export default function GetOne({ walletB58, cost }: Props) {
   const { connection } = useConnection();
-  const { publicKey: userWallet, sendTransaction } = useWallet();
+  const { publicKey: userWalletPk, sendTransaction } = useWallet();
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
 
   const onClick = async () => {
-    const totalLeft = await nftCount(wallet);
-    if (totalLeft > 0) {
+    if (!userWalletPk) throw new WalletNotConnectedError();
+    const storeWalletPk = new PublicKey(walletB58);
+    const tixLeft = await tixCount(userWalletPk);
+    const nftLeft = await nftCount(storeWalletPk);
+    if (tixLeft < cost) {
+      setError("Not enough Tix!!!");
+      setOpen(true);
+    } else if (nftLeft <= 0) {
+      setError("Sold Out!!!");
+      setOpen(true);
+    } else {
       await processTransaction(
-        userWallet,
-        wallet,
+        userWalletPk,
+        storeWalletPk,
         cost,
         connection,
         sendTransaction
       );
-    } else {
-      setOpen(true);
     }
   };
 
@@ -33,7 +44,7 @@ export default function GetOne({ wallet, cost }: Props) {
 
   return (
     <Box>
-      {wallet === "false" ? (
+      {walletB58 === "false" ? (
         <Button
           sx={{
             width: "100%",
@@ -87,7 +98,7 @@ export default function GetOne({ wallet, cost }: Props) {
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          Sold out!
+          {error}
         </Alert>
       </Snackbar>
     </Box>

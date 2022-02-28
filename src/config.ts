@@ -6,14 +6,14 @@ const connection = new Connection(network, "confirmed");
 
 const honeypot = {
   wallet: process.env.HONEYPOT_WALLET_ADDRESS,
-  cost: 15,
+  cost: 1,
 };
 
 const offers = [
   {
     wallet58: process.env.OFFER_1_WALLET_ADDRESS || "",
     name: "Sovana",
-    cost: 74,
+    cost: 2,
     remaining: 0,
     image:
       "https://dl.airtable.com/.attachmentThumbnails/132a746ad38e113c7880c7b66f319ecd/e58d73b6",
@@ -21,7 +21,7 @@ const offers = [
   {
     wallet58: process.env.OFFER_2_WALLET_ADDRESS || "",
     name: "Famous Fox Federation",
-    cost: 40,
+    cost: 3,
     remaining: 0,
     image:
       "https://ipfs.io/ipfs/Qmetu9eyf7jxE9cNV9MYMWborQBGHqurt1MvD2LjwDcumy",
@@ -29,7 +29,7 @@ const offers = [
   {
     wallet58: process.env.OFFER_3_WALLET_ADDRESS || "",
     name: "DeGods",
-    cost: 34,
+    cost: 4,
     remaining: 0,
     image: "https://i.imgur.com/2kWcR3L.jpeg",
   },

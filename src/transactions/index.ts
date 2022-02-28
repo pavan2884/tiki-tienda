@@ -1,4 +1,3 @@
-import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import {
   AccountInfo,
@@ -8,13 +7,15 @@ import {
   PublicKey,
   sendAndConfirmTransaction,
   Transaction,
+  TransactionInstruction,
 } from "@solana/web3.js";
 import axios from "axios";
+import { getTixMintPk } from "../accounts";
 import { connection, keyMap } from "../config";
 import {
+  createAssociatedTokenAccountInstruction,
   formatPrivateKeyArray,
   getAssociatedTokenAddress,
-  loadWallets,
   nftTransferInstruction,
   solTransferInstruction,
   tixTransferInstruction,
@@ -26,27 +27,34 @@ type Account = {
 };
 
 const processTransaction = async (
-  userWallet: PublicKey | null,
-  wallet: string,
+  userWalletPk: PublicKey,
+  storeWalletPk: PublicKey,
   cost: number,
   connection: Connection,
   sendTransaction: WalletContextState["sendTransaction"]
 ) => {
-  if (!userWallet) throw new WalletNotConnectedError();
-  const { storeWallet, tixMint } = loadWallets(wallet);
-  const storeTixAccount = await getAssociatedTokenAddress(tixMint, storeWallet);
-  const userTixAccount = await getAssociatedTokenAddress(tixMint, userWallet);
+  console.log("Processing transaction");
+  const tixMintPk = getTixMintPk();
+  const storeTixAccount = await getAssociatedTokenAddress(
+    tixMintPk,
+    storeWalletPk
+  );
+  const userTixAccount = await getAssociatedTokenAddress(
+    tixMintPk,
+    userWalletPk
+  );
   const transaction = new Transaction().add(
-    tixTransferInstruction(userTixAccount, storeTixAccount, userWallet, cost),
-    solTransferInstruction(userWallet, storeWallet)
+    tixTransferInstruction(userTixAccount, storeTixAccount, userWalletPk, cost),
+    solTransferInstruction(userWalletPk, storeWalletPk)
   );
   try {
     const signature = await sendTransaction(transaction, connection);
-    await connection.confirmTransaction(signature, "processed");
-    console.log("Payment done");
+    console.log("Transaction for payment done");
+    // const { context, value } = await connection.confirmTransaction(signature);
+    // console.log("Confirmed transaction for payment", signature, context, value);
     const result = await axios.post("/api/getone", {
-      userWalletB58: userWallet.toBase58(),
-      storeWalletB58: storeWallet.toBase58(),
+      userWalletB58: userWalletPk.toBase58(),
+      storeWalletB58: storeWalletPk.toBase58(),
       signature,
     });
     console.log("Transaction done", result, signature);
@@ -66,35 +74,79 @@ const getKeypair = (wallet58: string) => {
   return storeWalletKeyPair;
 };
 
-const transferNft = async (
+const nftTransaction = async (
   nftToTransfer: Account,
-  userWalletB58: string,
-  storeWalletB58: string
-): Promise<string> => {
-  console.log("Nft picked", nftToTransfer.account.data.parsed.info.mint);
+  userWalletPk: PublicKey,
+  storeWalletPk: PublicKey
+) => {
   const nftMintPk = new PublicKey(nftToTransfer.account.data.parsed.info.mint);
-
-  const userWallet = new PublicKey(userWalletB58);
-  const userNftAccount = await getAssociatedTokenAddress(nftMintPk, userWallet);
-
-  const storeWallet = new PublicKey(storeWalletB58);
+  console.log(
+    "Mint",
+    nftToTransfer.account.data.parsed.info.mint,
+    nftMintPk.toBase58()
+  );
   const storeNftAccount = await getAssociatedTokenAddress(
     nftMintPk,
-    storeWallet
+    storeWalletPk
   );
-
-  const transaction = new Transaction().add(
-    nftTransferInstruction(storeNftAccount, userNftAccount, storeWallet)
+  console.log("storeNftAccount", storeNftAccount.toBase58());
+  const userNftAccount = await getAssociatedTokenAddress(
+    nftMintPk,
+    userWalletPk
   );
+  console.log("userNftAccount", userNftAccount.toBase58());
+  const instructions: TransactionInstruction[] = [];
+  const receiverAccount = await connection.getAccountInfo(userNftAccount);
+  if (!receiverAccount) {
+    console.log("Creating associated token account", userNftAccount.toBase58());
+    instructions.push(
+      createAssociatedTokenAccountInstruction(
+        nftMintPk,
+        userNftAccount,
+        userWalletPk,
+        storeWalletPk
+      )
+    );
+  }
+  console.log(
+    "nftTransferInstruction",
+    storeNftAccount.toBase58(),
+    userNftAccount.toBase58(),
+    storeWalletPk.toBase58()
+  );
+  instructions.push(
+    nftTransferInstruction(storeNftAccount, userNftAccount, storeWalletPk)
+  );
+  return new Transaction().add(...instructions);
+};
 
-  const storeWalletKeyPair = getKeypair(storeWalletB58);
-
+const transferNft = async (
+  nftToTransfer: Account,
+  userWalletPk: PublicKey,
+  storeWalletPk: PublicKey,
+  signature: string
+): Promise<string> => {
+  console.log("Nft picked", nftToTransfer.account.data.parsed.info.mint);
+  // const paymentTransaction = await connection.getTransaction(signature, { commitment: "confirmed" });
+  // console.log("Payment transaction", paymentTransaction, signature);
+  const transaction = await nftTransaction(
+    nftToTransfer,
+    userWalletPk,
+    storeWalletPk
+  );
+  const storeWalletKeyPair = getKeypair(storeWalletPk.toBase58());
   try {
-    const signature = await sendAndConfirmTransaction(connection, transaction, [
-      storeWalletKeyPair,
-    ]);
-    console.log("Signature", signature);
-    return signature;
+    const newSignature = await sendAndConfirmTransaction(
+      connection,
+      transaction,
+      [storeWalletKeyPair],
+      {
+        commitment: "processed",
+        maxRetries: 3,
+      }
+    );
+    console.log("Signature nft transfer", newSignature);
+    return newSignature;
   } catch (error) {
     console.log("Nft send failed!!!!", error);
   }

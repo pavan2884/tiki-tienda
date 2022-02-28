@@ -17,6 +17,22 @@ const getAssociatedTokenAddress = async (
   );
 };
 
+const createAssociatedTokenAccountInstruction = (
+  mint: PublicKey,
+  associatedAccount: PublicKey,
+  owner: PublicKey,
+  payer: PublicKey
+) => {
+  return Token.createAssociatedTokenAccountInstruction(
+    ASSOCIATED_TOKEN_PROGRAM_ID,
+    TOKEN_PROGRAM_ID,
+    mint,
+    associatedAccount,
+    owner,
+    payer
+  );
+};
+
 const solTransferInstruction = (
   userWallet: PublicKey,
   storeWallet: PublicKey
@@ -59,18 +75,6 @@ const tixTransferInstruction = (
   );
 };
 
-const loadWallets = (wallet: string) => {
-  const storeWalletAddress = wallet;
-  const tixMintAddress = process.env.NEXT_PUBLIC_TIX_MINT_ADDRESS;
-  if (!tixMintAddress)
-    throw new Error("Environment not set propertly, missing tix mint address");
-
-  const storeWallet = new PublicKey(storeWalletAddress);
-  const tixMint = new PublicKey(tixMintAddress);
-
-  return { storeWallet, tixMint };
-};
-
 // cannot save the proper array in env vars
 const formatPrivateKeyArray = (key: string) => {
   // Removes brackets to make processing correct
@@ -80,10 +84,10 @@ const formatPrivateKeyArray = (key: string) => {
 };
 
 export {
+  createAssociatedTokenAccountInstruction,
   getAssociatedTokenAddress,
   solTransferInstruction,
   tixTransferInstruction,
   nftTransferInstruction,
-  loadWallets,
   formatPrivateKeyArray,
 };
