@@ -20,14 +20,15 @@ export default function GetOne({ walletB58, cost }: Props) {
 
   const onClick = async () => {
     if (!userWalletPk) throw new WalletNotConnectedError();
+    if (walletB58 === "false") return; ///TODO ^^^ proper error throw here for SOLD OUT
     const storeWalletPk = new PublicKey(walletB58);
     const tixLeft = await tixCount(userWalletPk);
     const nftLeft = await nftCount(storeWalletPk);
     if (tixLeft < cost) {
-      setError("Not enough Tix!!!");
+      setError("Not enough Tix!");
       setOpen(true);
     } else if (nftLeft <= 0) {
-      setError("Sold Out!!!");
+      setError("Sold Out!");
       setOpen(true);
     } else {
       await processTransaction(
@@ -55,6 +56,7 @@ export default function GetOne({ walletB58, cost }: Props) {
             backgroundSize: "100% 80%",
             cursor: "default",
           }}
+          onClick={onClick}
         >
           <Typography
             sx={{
