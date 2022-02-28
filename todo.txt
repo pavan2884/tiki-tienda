@@ -11,12 +11,6 @@ The payment from user wallet to store wallet is sent but the confirmation call t
 
 Nate:
 
-!!! Confirm alert for GetOne before actual purchase
-
- mui > components > override  https://mui.com/customization/theme-components/#global-style-overrides
-
-Infosign and features offers fonts fixes working correctly?
-
 Cost in featured collections fix the TIKI TIX section of the background seperated from the other part of the bar, so that the aspect ratio is maintained
 
 check that Favicon & Window title (in tab) is working

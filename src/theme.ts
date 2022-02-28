@@ -44,6 +44,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          fontFamily: "Arial",
+        },
+      },
+    },
     MuiCardHeader: {
       styleOverrides: {
         title: {
