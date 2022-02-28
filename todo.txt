@@ -1,4 +1,17 @@
-How to handle/cleanup aux accounts on store wallets???
+
+Update config for offers
+    Name
+    Image
+
+Offer 3 swap -
+I want to swap the Pesky Penguin NFT in wallet 3 for 3 Sovana NFTs (which are currently in the treasure chest)
+Update offer3 cost to 175
+
+How to handle/cleanup aux accounts on store wallets??? - Manual for now, need to
+    run system-gc on the wallet
+        spl-token --config wallets/honeypot/prod-config.yml gc
+
+Enable back confirmation for transaction from user wallet
 
 Error handling in getone api and corresponding UI
 Return tix and sol on failed transaction
