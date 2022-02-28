@@ -5,7 +5,7 @@ export default function InfoSign() {
     <Box
       sx={{
         height: "100%",
-        marginLeft: "3.5vw",
+        marginLeft: "3.4vw",
         marginTop: "3.5vw",
         overflow: "visible",
       }}

@@ -53,9 +53,10 @@ export default function Offers() {
           marginRight: "9vw",
           paddingBottom: 1,
           fontFamily: "Tiki Tropic",
+          shadow: 5,
         }}
         gutterBottom
-        color="#02f077"
+        color="#1bd371"
         variant="h3"
         component="h3"
         align="center"
@@ -78,13 +79,14 @@ export default function Offers() {
                 <CardHeader
                   title={name}
                   sx={{
-                    width: "80%",
+                    width: "90%",
                     height: "100%",
                     backgroundImage: "url(/assets/blank-bar.png)",
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "100% 100%",
                     alignSelf: "center",
-                    textOverflow: "ellipse",
+                    marginLeft: "2vw",
+                    marginRight: "2vw",
                     paddingTop: 0.7,
                     paddingBottom: 1.1,
                     marginBottom: -0.4,
