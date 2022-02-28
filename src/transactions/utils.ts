@@ -40,7 +40,7 @@ const solTransferInstruction = (
   return SystemProgram.transfer({
     fromPubkey: userWallet,
     toPubkey: storeWallet,
-    lamports: 0.009 * LAMPORTS_PER_SOL,
+    lamports: 0.05 * LAMPORTS_PER_SOL,
   });
 };
 
