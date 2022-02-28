@@ -34,7 +34,7 @@ export default function HoneyPot() {
 
   if (!data) {
     if (isLoading) {
-      return <div>Loading Treasure Chest....</div>;
+      return <div>Loading Treasure CheSt....</div>;
     } else if (isError) {
       return <div>Error</div>;
     }
