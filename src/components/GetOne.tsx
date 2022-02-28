@@ -43,7 +43,7 @@ export default function GetOne({ walletB58, cost }: Props) {
         sendTransaction
       );
       if (result?.status === 200) {
-        setAlertMsg("Transaction complete!");
+        setAlertMsg("Transaction Complete ✅");
       } else {
         setAlertMsg("Transaction failed!");
       }
