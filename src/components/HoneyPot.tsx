@@ -49,7 +49,7 @@ export default function HoneyPot() {
     };
     const handleClose = () => setOpen(false);
     return (
-      <Box sx={{ height: "100%", paddingLeft: 6, marginTop: -3 }}>
+      <Box sx={{ height: "100%", paddingLeft: "2vw", marginTop: -3 }}>
         <Stack spacing={0.5}>
           <Box>
             <Box

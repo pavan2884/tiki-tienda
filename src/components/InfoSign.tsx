@@ -13,9 +13,9 @@ export default function InfoSign() {
       <Box
         sx={{
           height: "100%",
-          paddingLeft: "5vw",
-          paddingRight: "5vw",
-          paddingTop: "4vw",
+          paddingLeft: "4vw",
+          paddingRight: "2.8vw",
+          paddingTop: "4.1vw",
           backgroundImage: "url(/assets/info-sign.png)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "100%",
@@ -39,10 +39,10 @@ export default function InfoSign() {
             fontSize: "1.3vw",
             alignItems: "center",
             fontFamily: "Sans Serif",
-            marginLeft: ".5vw",
-            marginRight: "-.5vw",
-            marginTop: ".5vw",
-            marginBottom: "2.5vw",
+            marginLeft: "1vw",
+            marginRight: "1vw",
+            marginTop: ".4vw",
+            marginBottom: "2.6vw",
           }}
           color="black"
         >
@@ -53,8 +53,8 @@ export default function InfoSign() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            marginLeft: ".5vw",
-            marginRight: "-.5vw",
+            marginLeft: "1vw",
+            marginRight: "1vw",
             fontSize: "1.3vw",
             alignItems: "center",
             fontFamily: "Sans Serif",

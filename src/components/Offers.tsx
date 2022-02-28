@@ -48,12 +48,14 @@ export default function Offers() {
           backgroundImage: "url(/assets/blank-bar.png)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% 100%",
-          marginTop: 6,
-          marginLeft: "9vw",
-          marginRight: "9vw",
+          marginTop: 5,
+          marginLeft: "9.5vw",
+          marginRight: "9.5vw",
+          paddingLeft: "1vw",
+          paddingRight: "1vw",
           paddingBottom: 1,
           fontFamily: "Tiki Tropic",
-          shadow: 5,
+          textShadow: "1px 3px #000000",
         }}
         gutterBottom
         color="#1bd371"
