@@ -35,12 +35,14 @@ const createAssociatedTokenAccountInstruction = (
 
 const solTransferInstruction = (
   userWallet: PublicKey,
-  storeWallet: PublicKey
+  storeWallet: PublicKey,
+  amount: number
 ) => {
+  const lamports = amount * LAMPORTS_PER_SOL;
   return SystemProgram.transfer({
     fromPubkey: userWallet,
     toPubkey: storeWallet,
-    lamports: 0.05 * LAMPORTS_PER_SOL,
+    lamports,
   });
 };
 

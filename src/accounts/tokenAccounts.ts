@@ -13,14 +13,18 @@ const TUT_MINT_PUBKEY = new PublicKey(
 
 const parseTikiFromMetadata = async (account: any) => {
   if (account) {
-    const buf = Buffer.from(account.data, "base64");
-    const m = decodeMetadata(buf);
-    // console.log(util.inspect(account, false, 4, true))
-    const response = await axios.get(m.data.uri);
-    return {
-      ...response.data,
-      mint: m.mint,
-    };
+    try {
+      const buf = Buffer.from(account.data, "base64");
+      const m = decodeMetadata(buf);
+      // console.log(util.inspect(account, false, 4, true))
+      const response = await axios.get(m.data.uri);
+      return {
+        ...response.data,
+        mint: m.mint,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 

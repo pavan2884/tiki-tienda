@@ -16,12 +16,12 @@ export default function GetOne({ walletB58, cost }: Props) {
   const { connection } = useConnection();
   const { publicKey: userWalletPk, sendTransaction } = useWallet();
   const [open, setOpen] = useState(false);
-  const [error, setError] = useState("");
+  const [alertMsg, setAlertMsg] = useState("");
 
   const onClick = async () => {
     if (!userWalletPk) throw new WalletNotConnectedError();
     if (walletB58 === "false") {
-      setError("Sold Out!");
+      setAlertMsg("Sold Out!");
       setOpen(true);
       return;
     } //other sold out case to avoid crash
@@ -29,19 +29,25 @@ export default function GetOne({ walletB58, cost }: Props) {
     const tixLeft = await tixCount(userWalletPk);
     const nftLeft = await nftCount(storeWalletPk);
     if (tixLeft < cost) {
-      setError("Not enough Tix!");
+      setAlertMsg("Not enough Tix!");
       setOpen(true);
     } else if (nftLeft <= 0) {
-      setError("Sold Out!");
+      setAlertMsg("Sold Out!");
       setOpen(true);
     } else {
-      await processTransaction(
+      const result = await processTransaction(
         userWalletPk,
         storeWalletPk,
         cost,
         connection,
         sendTransaction
       );
+      if (result?.status === 200) {
+        setAlertMsg("Transaction complete!");
+      } else {
+        setAlertMsg("Transaction failed!");
+      }
+      setOpen(true);
     }
   };
 
@@ -104,7 +110,7 @@ export default function GetOne({ walletB58, cost }: Props) {
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          {error}
+          {alertMsg}
         </Alert>
       </Snackbar>
     </Box>
