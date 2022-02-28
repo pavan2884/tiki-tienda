@@ -29,7 +29,7 @@ const offers = [
   {
     wallet58: process.env.OFFER_3_WALLET_ADDRESS || "",
     name: "DeGods",
-    cost: 450,
+    cost: 175,
     remaining: 0,
     image: "https://i.imgur.com/2kWcR3L.jpeg",
   },
