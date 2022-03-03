@@ -22,8 +22,6 @@ Layout change when more than 3 collections, move honeypot to side?
 
 Cost in featured collections fix the TIKI TIX section of the background seperated from the other part of the bar, so that the aspect ratio is maintained
 
-check that Favicon & Window title (in tab) is working
-
 ellipses when featured offer collection name is too long
 
 min font size for infosign
