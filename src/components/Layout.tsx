@@ -5,6 +5,7 @@ import Offers from "./Offers";
 //import Hut from "./Hut";
 //import Gold from "./Gold";
 import HoneyPot from "./HoneyPot";
+import Mint from "./Mint";
 import { styled } from "@mui/material/styles";
 
 const border =
@@ -14,14 +15,14 @@ const border =
 
 const Base = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
-    gridTemplateAreas: `"banner banner offers offers offers" 
+    gridTemplateAreas: `"banner banner offers offers offers"
                               "hut hut offers offers offers"
                               "honeypot honeypot offers offers offers"
                               ". . offers offers offers"
                               ". . offers offers offers"`,
   },
   [theme.breakpoints.between("md", "lg")]: {
-    gridTemplateAreas: `"banner banner offers offers offers" 
+    gridTemplateAreas: `"banner banner offers offers offers"
                               " hut hut offers offers offers"
                               "honeypot honeypot offers offers offers"
                               "honeypot honeypot offers offers offers"`,
@@ -31,8 +32,8 @@ const Base = styled(Box)(({ theme }) => ({
                               "banner banner offers offers offers"
                               "hut hut offers offers offers"
                               ". . . . . "
-                              ". . .  honeypot honeypot"
-                              ". . . honeypot honeypot"`,
+                              ". . .  honeypot mint"
+                              ". . . honeypot mint"`,
   },
 }));
 
@@ -55,12 +56,15 @@ export default function Layout() {
       </Box>
       {/*<Box sx={{ gridArea: "hut", border }}>
         <Hut />
-      </Box> 
+      </Box>
       <Box sx={{ gridArea: "gold", border }}>
         <Gold />
       </Box>  */}
       <Box sx={{ gridArea: "honeypot", border }}>
         <HoneyPot />
+      </Box>
+      <Box sx={{ gridArea: "mint", border }}>
+        <Mint />
       </Box>
     </Base>
   );
