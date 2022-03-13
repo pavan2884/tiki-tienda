@@ -1,4 +1,11 @@
-import { Box, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  AlertColor,
+  Box,
+  Snackbar,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
 import { useEffect, useMemo, useState } from "react";
@@ -20,15 +27,21 @@ function getCandyMachineId() {
   throw new Error("NEXT_PUBLIC_REACT_APP_CANDY_MACHINE_ID not set!!!!");
 }
 
+type AlertState = {
+  open: boolean;
+  message: string;
+  severity: AlertColor;
+};
+
 export default function Mint() {
   const { connection } = useConnection();
   const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
   const [yourSOLBalance, setYourSOLBalance] = useState(0);
   const [isMinting, setIsMinting] = useState(false);
-  const [_, setAlertState] = useState({
+  const [alertState, setAlertState] = useState<AlertState>({
     open: false,
     message: "",
-    severity: "",
+    severity: "success",
   });
 
   console.log(yourSOLBalance);
@@ -87,7 +100,7 @@ export default function Mint() {
         console.log("No candy machine detected in configuration.");
       }
     })();
-  }, [anchorWallet, candyMachineId, connection]);
+  }, [anchorWallet, candyMachineId.toBase58(), connection]);
 
   const onMint = async () => {
     try {
@@ -98,19 +111,18 @@ export default function Mint() {
           await mintOneToken(candyMachine, wallet.publicKey)
         )[0];
 
-        let status = { err: true };
+        let status: any = { err: true };
         if (mintTxId) {
-          const signatureStatus = await awaitTransactionSignatureConfirmation(
+          status = await awaitTransactionSignatureConfirmation(
             mintTxId,
             txTimeout,
             connection,
             "singleGossip",
             true
           );
-          status.err = !signatureStatus || signatureStatus.err ? true : false;
         }
 
-        if (!status.err) {
+        if (!status?.err) {
           setAlertState({
             open: true,
             message: "Congratulations! Mint succeeded!",
@@ -186,6 +198,18 @@ export default function Mint() {
           </Typography>
         </Box>
       </Stack>
+      <Snackbar
+        open={alertState.open}
+        autoHideDuration={6000}
+        onClose={() => setAlertState({ ...alertState, open: false })}
+      >
+        <Alert
+          onClose={() => setAlertState({ ...alertState, open: false })}
+          severity={alertState.severity}
+        >
+          {alertState.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
