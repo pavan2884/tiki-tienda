@@ -2,6 +2,7 @@ import {
   Alert,
   AlertColor,
   Box,
+  Button,
   Snackbar,
   Stack,
   Typography,
@@ -160,14 +161,16 @@ export default function Mint() {
     }
   };
 
+  const itemsRemaining = candyMachine?.state.itemsRemaining;
+  const itemsAvailable = candyMachine?.state.itemsAvailable;
   return (
     <Box sx={{ height: "100%", paddingLeft: "2vw", marginTop: -3 }}>
       <Stack spacing={0.5}>
-        <Box
+        <Button
           sx={{
             width: 420,
             height: "100%",
-            backgroundImage: "url(/assets/honeypot-cost.png)",
+            backgroundImage: "url(/assets/blank-bar.png)",
             backgroundRepeat: "no-repeat",
             backgroundSize: "100% 100%",
             display: "flex",
@@ -176,19 +179,15 @@ export default function Mint() {
           }}
           onClick={onMint}
         >
-          <Typography
-            sx={{
-              fontSize: 45,
-              paddingTop: 5,
-              paddingBottom: 1.5,
-              paddingLeft: 3,
-            }}
-            color="#00fff1"
-            alignSelf="left"
-          >
-            Mint!
-          </Typography>
-        </Box>
+          <Stack spacing={0.5}>
+            <Typography color="#00fff1" alignSelf="left" variant="h4">
+              Mint Village ({itemsRemaining}/{itemsAvailable} left)
+            </Typography>
+            <Typography color="#00fff1" alignSelf="left" variant="h6">
+              Requires 1 mint key + 200 TIKI TIX
+            </Typography>
+          </Stack>
+        </Button>
       </Stack>
       <Snackbar
         open={alertState.open}
