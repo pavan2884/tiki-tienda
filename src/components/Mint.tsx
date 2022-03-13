@@ -19,12 +19,10 @@ import {
 const txTimeout = 30000; // milliseconds (confirm this works for your project)
 
 function getCandyMachineId() {
-  const id = process.env.NEXT_PUBLIC_REACT_APP_CANDY_MACHINE_ID;
-  console.log(id);
-  if (id) {
-    return new PublicKey(id);
+  if (!process.env.NEXT_PUBLIC_REACT_APP_CANDY_MACHINE_ID) {
+    throw new Error("NEXT_PUBLIC_REACT_APP_CANDY_MACHINE_ID not set!!!!");
   }
-  throw new Error("NEXT_PUBLIC_REACT_APP_CANDY_MACHINE_ID not set!!!!");
+  return new PublicKey(process.env.NEXT_PUBLIC_REACT_APP_CANDY_MACHINE_ID);
 }
 
 type AlertState = {
@@ -43,9 +41,6 @@ export default function Mint() {
     message: "",
     severity: "success",
   });
-
-  console.log(yourSOLBalance);
-  console.log(isMinting);
 
   const wallet = useWallet();
 
@@ -83,9 +78,6 @@ export default function Mint() {
 
       if (candyMachineId) {
         try {
-          console.log(anchorWallet.publicKey.toBase58());
-          console.log(candyMachineId.toBase58());
-          console.log(connection);
           const cndy = await getCandyMachineState(
             anchorWallet,
             candyMachineId,

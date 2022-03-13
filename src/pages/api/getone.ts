@@ -1,7 +1,8 @@
-import { PublicKey } from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { pickAnNft } from "../../accounts";
 import { transferNft } from "../../transactions";
+import { url } from "../../config";
 
 type Data = {
   userWalletB58: string;
@@ -18,13 +19,16 @@ export default async function handler(
   const userWalletPk = new PublicKey(userWalletB58);
   const storeWalletPk = new PublicKey(storeWalletB58);
 
+  const connection = new Connection(url, "confirmed");
+
   try {
-    const nftToTransfer = await pickAnNft(storeWalletPk);
+    const nftToTransfer = await pickAnNft(storeWalletPk, connection);
     const result = await transferNft(
       nftToTransfer,
       userWalletPk,
       storeWalletPk,
-      signature
+      signature,
+      connection
     );
     return res.status(200).json({ signature: result });
   } catch (error) {

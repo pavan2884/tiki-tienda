@@ -16,27 +16,26 @@ import {
   SolletWalletAdapter,
   TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { clusterApiUrl } from "@solana/web3.js";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useMemo } from "react";
+import { url } from "../config";
 import createEmotionCache from "../createEmotionCache";
 import theme from "../theme";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
+const network = WalletAdapterNetwork.Devnet;
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
-
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
-  const network = WalletAdapterNetwork.Devnet;
-
-  // const endpoint = useMemo(() => network, []);
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  // const network = WalletAdapterNetwork.Devnet;
+  // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  const endpoint = useMemo(() => url, []);
 
   // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
   // Only the wallets you configure here will be compiled into your application, and only the dependencies
@@ -51,7 +50,7 @@ export default function MyApp(props: MyAppProps) {
       new SolletWalletAdapter({ network }),
       new SolletExtensionWalletAdapter({ network }),
     ],
-    [network]
+    []
   );
 
   return (

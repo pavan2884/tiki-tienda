@@ -11,7 +11,7 @@ import {
 } from "@solana/web3.js";
 import axios from "axios";
 import { getTixMintPk } from "../accounts";
-import { connection, keyMap, storeCost } from "../config";
+import { keyMap, storeCost } from "../config";
 import {
   createAssociatedTokenAccountInstruction,
   formatPrivateKeyArray,
@@ -78,7 +78,8 @@ const getKeypair = (wallet58: string) => {
 const nftTransaction = async (
   nftToTransfer: Account,
   userWalletPk: PublicKey,
-  storeWalletPk: PublicKey
+  storeWalletPk: PublicKey,
+  connection: Connection
 ) => {
   const nftMintPk = new PublicKey(nftToTransfer.account.data.parsed.info.mint);
   console.log(
@@ -125,7 +126,8 @@ const transferNft = async (
   nftToTransfer: Account,
   userWalletPk: PublicKey,
   storeWalletPk: PublicKey,
-  signature: string
+  signature: string,
+  connection: Connection
 ): Promise<string> => {
   console.log("Nft picked", nftToTransfer.account.data.parsed.info.mint);
   // const paymentTransaction = await connection.getTransaction(signature, { commitment: "confirmed" });
@@ -133,7 +135,8 @@ const transferNft = async (
   const transaction = await nftTransaction(
     nftToTransfer,
     userWalletPk,
-    storeWalletPk
+    storeWalletPk,
+    connection
   );
   const storeWalletKeyPair = getKeypair(storeWalletPk.toBase58());
   try {

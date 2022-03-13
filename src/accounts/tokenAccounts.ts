@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Connection, PublicKey } from "@solana/web3.js";
-import { connection } from "../config";
 import { decodeMetadata } from "./metadata";
 
 const METADATA_PUBKEY = new PublicKey(
@@ -89,7 +88,10 @@ const getAccountsInfo = async (tokenAccounts: any, connection: Connection) => {
   return accounts.flat().filter((t) => t);
 };
 
-const getTokenAccounts = async (walletString: string, connection: any) => {
+const getTokenAccounts = async (
+  walletString: string,
+  connection: Connection
+) => {
   const base58publicKey = new PublicKey(walletString);
   const programId = new PublicKey(
     "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
@@ -101,7 +103,7 @@ const getTokenAccounts = async (walletString: string, connection: any) => {
   return tokenAccounts;
 };
 
-export const getData = async (walletString: string) => {
+export const getData = async (walletString: string, connection: Connection) => {
   const tokenAccounts = await getTokenAccounts(walletString, connection);
   const accountsInfo = await getAccountsInfo(tokenAccounts, connection);
   const items = await getTikis(accountsInfo);

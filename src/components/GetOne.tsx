@@ -26,8 +26,8 @@ export default function GetOne({ walletB58, cost }: Props) {
       return;
     } //other sold out case to avoid crash
     const storeWalletPk = new PublicKey(walletB58);
-    const tixLeft = await tixCount(userWalletPk);
-    const nftLeft = await nftCount(storeWalletPk);
+    const tixLeft = await tixCount(userWalletPk, connection);
+    const nftLeft = await nftCount(storeWalletPk, connection);
     if (tixLeft < cost) {
       setAlertMsg("Not enough Tix!");
       setOpen(true);

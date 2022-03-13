@@ -1,7 +1,7 @@
+import { Connection, PublicKey } from "@solana/web3.js";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { offers } from "../../config";
 import { nftCount } from "../../accounts";
-import { PublicKey } from "@solana/web3.js";
+import { offers, url } from "../../config";
 
 type Offer = {
   wallet58: string;
@@ -19,10 +19,14 @@ export default async function handler(
   _req: NextApiRequest,
   res: NextApiResponse<Data | Error>
 ) {
+  const connection = new Connection(url, "confirmed");
   try {
     await Promise.all(
       offers.map(async (offer) => {
-        offer.remaining = await nftCount(new PublicKey(offer.wallet58));
+        offer.remaining = await nftCount(
+          new PublicKey(offer.wallet58),
+          connection
+        );
       })
     );
     res.status(200).json({

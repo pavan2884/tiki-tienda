@@ -1,5 +1,6 @@
 import { Grid, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useConnection } from "@solana/wallet-adapter-react";
 import { getData } from "../accounts/tokenAccounts";
 import TikiItem from "./Tiki";
 
@@ -28,8 +29,9 @@ const WrappedNftList = React.forwardRef(function NftList(
   _ref
 ) {
   const [data, setData] = useState<Data>({ items: [] });
+  const { connection } = useConnection();
   useEffect(() => {
-    getData(walletB58).then((data) => {
+    getData(walletB58, connection).then((data) => {
       setData(data);
     });
     return () => {};

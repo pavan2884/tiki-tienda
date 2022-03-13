@@ -1,4 +1,5 @@
 import { Box, Modal, Stack, Typography } from "@mui/material";
+import { useConnection } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
 import axios from "axios";
 import { useState } from "react";
@@ -29,6 +30,7 @@ function useHoneyPot() {
 }
 
 export default function HoneyPot() {
+  const { connection } = useConnection();
   const [open, setOpen] = useState(false);
   const { data, isLoading, isError } = useHoneyPot();
 
@@ -42,7 +44,7 @@ export default function HoneyPot() {
   } else {
     const { wallet: walletB58, cost } = data.data;
     const displayHoneyPot = async () => {
-      const totalLeft = await nftCount(new PublicKey(walletB58));
+      const totalLeft = await nftCount(new PublicKey(walletB58), connection);
       if (totalLeft > 0) {
         setOpen(true);
       }

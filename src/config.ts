@@ -1,8 +1,5 @@
-import { Connection } from "@solana/web3.js";
-
-const network =
+const url =
   process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.devnet.solana.com";
-const connection = new Connection(network, "confirmed");
 
 const storeCost = 0.05;
 
@@ -53,4 +50,4 @@ const keyMap = (wallet58: string) => {
   }
 };
 
-export { connection, honeypot, offers, keyMap, storeCost };
+export { url, honeypot, offers, keyMap, storeCost };

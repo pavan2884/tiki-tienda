@@ -1,8 +1,10 @@
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import { PublicKey } from "@solana/web3.js";
-import { connection } from "../config";
+import { Connection, PublicKey } from "@solana/web3.js";
 
-const getTokenAccounts = async (walletPk: PublicKey) => {
+const getTokenAccounts = async (
+  walletPk: PublicKey,
+  connection: Connection
+) => {
   const { value: tokenAccounts } =
     await connection.getParsedTokenAccountsByOwner(walletPk, {
       programId: TOKEN_PROGRAM_ID,
@@ -10,8 +12,11 @@ const getTokenAccounts = async (walletPk: PublicKey) => {
   return tokenAccounts;
 };
 
-const getNftAccounts = async (storeWalletPk: PublicKey) => {
-  const tokenAccounts = await getTokenAccounts(storeWalletPk);
+const getNftAccounts = async (
+  storeWalletPk: PublicKey,
+  connection: Connection
+) => {
+  const tokenAccounts = await getTokenAccounts(storeWalletPk, connection);
   // tokenAccounts.forEach(account => {
   //   console.log(util.inspect(account, false, 10, true))
   // })
@@ -20,13 +25,13 @@ const getNftAccounts = async (storeWalletPk: PublicKey) => {
   );
 };
 
-const pickAnNft = async (storeWalletPk: PublicKey) => {
-  const nftAccounts = await getNftAccounts(storeWalletPk);
+const pickAnNft = async (storeWalletPk: PublicKey, connection: Connection) => {
+  const nftAccounts = await getNftAccounts(storeWalletPk, connection);
   return nftAccounts[(Math.random() * nftAccounts.length) | 0];
 };
 
-const nftCount = async (storeWalletPk: PublicKey) => {
-  const nftAccounts = await getNftAccounts(storeWalletPk);
+const nftCount = async (storeWalletPk: PublicKey, connection: Connection) => {
+  const nftAccounts = await getNftAccounts(storeWalletPk, connection);
   return nftAccounts.length;
 };
 
@@ -37,8 +42,8 @@ const getTixMintPk = () => {
   return new PublicKey(tixMintAddress);
 };
 
-const tixCount = async (userWalletPk: PublicKey) => {
-  const tokenAccounts = await getTokenAccounts(userWalletPk);
+const tixCount = async (userWalletPk: PublicKey, connection: Connection) => {
+  const tokenAccounts = await getTokenAccounts(userWalletPk, connection);
   const account = tokenAccounts.find(
     ({ account }: any) =>
       account.data.parsed.info.mint === getTixMintPk().toBase58()
