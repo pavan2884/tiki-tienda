@@ -13,7 +13,7 @@ export default function InfoSign() {
       <Box
         sx={{
           height: "100%",
-          paddingLeft: "4vw",
+          paddingLeft: "3.5vw",
           paddingRight: "2.8vw",
           paddingTop: "4.1vw",
           backgroundImage: "url(/assets/info-sign.png)",
@@ -42,12 +42,11 @@ export default function InfoSign() {
             marginLeft: "1vw",
             marginRight: "1vw",
             marginTop: ".4vw",
-            marginBottom: "2.6vw",
+            marginBottom: "0vw",
           }}
           color="black"
         >
-          Use the Tiki Tix you earned from the Turnt Up Gaming Suite to make
-          purchases here.
+          Use currency from Turnt Up Tikis to make purchases here.
         </Typography>
         <Typography
           sx={{

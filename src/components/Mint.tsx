@@ -184,7 +184,7 @@ export default function Mint() {
               Mint Village ({itemsRemaining}/{itemsAvailable} left)
             </Typography>
             <Typography color="#00fff1" alignSelf="left" variant="h6">
-              Requires 1 mint key + 200 TIKI TIX
+              Requires 1 mint key + 3000 $TUT
             </Typography>
           </Stack>
         </Button>
